@@ -1,0 +1,48 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header">
+        <div class="dropdown profile-element">
+          <span>
+              <image class="brand" src="{{urlPrefix}}/public/img/logo.png" />
+          </span>
+        </div>
+        <div class="logo-element">
+          <image style="width:40px;height:40px;" src="{{urlPrefix}}/public/img/logo.png" />
+        </div>
+      </li>
+      <li class="{{if eq .active "home"}}active{{end}}">
+        <a href="{{url "Home.index"}}"><i class="fa fa-home"></i> <span class="nav-label">主页</span></a>
+      </li>
+      <li class="{{if eq .active "OnlineUsers" "AuthAccounts"}}active{{end}}">
+        <a href="#"><i class="fa fa-qrcode"></i> <span class="nav-label">Radius</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="{{if eq .active "OnlineUsers"}}active{{end}}">
+            <a href="{{url "OnlineUsers.Index"}}">在线用户</a>
+          </li>
+          <li  class="{{if eq .active "AuthAccounts"}}active{{end}}">
+            <a href="{{url "AuthAccounts.Index"}}">用户管理</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-floppy-o"></i> <span class="nav-label">日志管理</span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
+          <li>
+            <a href="#">查看</a>
+          </li>
+          <li>
+            <a href="#">主机列表</a>
+          </li>
+          <li>
+            <a href="#">设置</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-area-chart"></i> <span class="nav-label">报表</span></a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

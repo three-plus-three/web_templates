@@ -1,0 +1,37 @@
+        </div>
+      <div class="footer">
+        <div class="pull-right">
+          <strong>IT资产管理</strong>
+        </div>
+        <div>
+          <strong>Copyright</strong> Hengwei © 2010
+        </div>
+      </div>
+    </div>
+    <form id="postForm" method="POST">
+      <input type="hidden" name="_method" value="POST" />
+    </form>
+    <script src="{{urlPrefix}}/public/js/jquery-2.1.1.js"></script>
+    <script src="{{urlPrefix}}/public/js/bootstrap.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/jqGrid/i18n/grid.locale-cn.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/pace/pace.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/toastr/toastr.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/validate/jquery.validate.additional.js"></script>
+    <script src="{{urlPrefix}}/public/js/plugins/validate/i18n/messages_zh.js"></script>
+
+
+    <script src="{{urlPrefix}}/public/js/inspinia.js"></script>
+    <script src="{{urlPrefix}}/public/js/inspinia_ext.js"></script>
+    <script src="{{urlPrefix}}/public/js/app.js"></script>
+
+    {{range .moreScripts}}
+      <script src="{{urlPrefix}}{{.}}" type="text/javascript" charset="utf-8"></script>
+    {{end}}
+
+  </body>
+</html>

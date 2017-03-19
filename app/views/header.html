@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>{{.title}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{urlPrefix}}/public/css/bootstrap.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+    <!--<link href="/public/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">-->
+    <link href="{{urlPrefix}}/public/css/plugins/jqGrid/ui.jqgrid-bootstrap.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
+    <link href="{{urlPrefix}}/public/css/animate.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/style.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/style_ext.css" rel="stylesheet">
+    <link href="{{urlPrefix}}/public/css/app.css" rel="stylesheet">
+
+    {{range .moreStyles}}
+      <link rel="stylesheet" type="text/css" href="{{urlPrefix}}{{.}}">
+    {{end}}
+
+  </head>
+  <body class="fixed-sidebar no-skin-config full-height-layout  pace-done">
+    <div id="wrapper">
+      {{template "nav_siderbar.html" .}}
+      <div id="page-wrapper" class="gray-bg">
+        {{template "main_top.html" .}}
+        {{template "flash.html" .}}
+        <div class="fh-no-breadcrumb">
