@@ -9,7 +9,7 @@
       {{end}}
       {{range $index, $page := .paginator.Pages}}
       <li{{if $.paginator.IsActive $page}} class="active"{{end}}>
-      <a href="{{$.paginator.PageLink $page}}">{{sum 1 $page}}</a>
+      <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
       </li>
       {{end}}
       {{if .paginator.HasNext}}
