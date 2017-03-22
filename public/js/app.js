@@ -43,6 +43,18 @@
     serializeJson: function(objArray){
       return JSON.stringify(this.serializeObject(objArray));
     },
+    onClientResize: function(callback) {
+      if(typeof callback === 'undefined')
+        return;
+
+      $(window).resize(function() {
+        callback();
+      });
+
+      $('#side-menu').bind("fadeInComplete", function() {
+        callback();
+      });
+    },
     serializeObject: function(objArray, movePrefix){
       var value = {};
       for(var i=0; i<objArray.length; i++) {
@@ -166,6 +178,10 @@
       $(targetSelector).find("[name=_method]").val(method);
     }
 
-    $(targetSelector).submit();
+    var dataConfirm = $(this).attr("data-confirm");
+    if(typeof dataConfirm === 'undefined'
+        || (confirm(dataConfirm))){
+      $(targetSelector).submit();
+    }
   })
 })(jQuery);
