@@ -238,20 +238,6 @@ $(document).ready(function () {
   }
 });
 
-//init client plugins
-$(document).ready(function () {
-  $.validator.defaults.ignore = ":hidden:not(.force-validate)";
-  $("form.validation-required").validate();
-
-  $('.tagsinput').tagsinput({
-    tagClass: 'label label-primary'
-  });
-});
-
-$.jgrid.defaults.responsive = true;
-$.jgrid.defaults.styleUI = 'Bootstrap';
-
-
 // check if browser support HTML5 local storage
 function localStorageSupport() {
   return (('localStorage' in window) && window['localStorage'] !== null)

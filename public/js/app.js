@@ -37,12 +37,6 @@
 
       window.location.href = fullUrl;
     },
-    resolveAjaxError: function(error) {
-      return error.status + "\r\n" + error.statusText + "\r\n" + error.responseText;
-    },
-    serializeJson: function(objArray){
-      return JSON.stringify(this.serializeObject(objArray));
-    },
     onClientResize: function(callback) {
       if(typeof callback === 'undefined')
         return;
@@ -54,6 +48,26 @@
       $('#side-menu').bind("fadeInComplete", function() {
         callback();
       });
+    },
+    resolveAjaxError: function(error) {
+      return error.status + "\r\n" + error.statusText + "\r\n" + error.responseText;
+    },
+    setData: function(key, value){
+      if(typeof $.cookieStorage != 'undefined') {
+        $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").set(key, value);
+      } else if(typeof window.localStorage != 'undefined') {
+        window.localStorage.setItem(key, value);
+      }
+    },
+    getData: function(key){
+      if(typeof $.cookieStorage != 'undefined') {
+        return $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").get(key);
+      } else {
+        return window.localStorage.setItem(key, value);
+      }
+    },
+    serializeJson: function(objArray){
+      return JSON.stringify(this.serializeObject(objArray));
     },
     serializeObject: function(objArray, movePrefix){
       var value = {};
@@ -124,6 +138,33 @@
 
       $(selector).modal({backdrop:'static'});
     },
+    showRemote: function(url, options) {
+      if(typeof options == "undefined") {
+        options = {};
+      }
+
+      $.ajax({
+        url:url,
+        success: function(modalHtml) {
+          var $el = $(modalHtml);
+          $el.appendTo($(document.body)).modal({backdrop:'static'});
+
+          if(typeof options.loadCallback != "undefined") {
+            options.loadCallback.call(this, $el);
+          }
+
+          $el.one('hide.bs.modal', function () {
+            if(typeof options.destroyCallback != "undefined") {
+              options.destroyCallback.call(this, $el);
+            }
+            $el.remove();
+          });
+
+        }, error: function(error) {
+          Msg.error("加载失败！\r\n" + App.resolveAjaxError(error));
+        }
+      })
+    },
     _fillForm: function(form, data) {
       for(var key in data) {
         var selector = "[name='" + key + "']";
@@ -185,3 +226,8 @@
     }
   })
 })(jQuery);
+
+$(function ($) {
+  $.jgrid.defaults.responsive = true;
+  $.jgrid.defaults.styleUI = 'Bootstrap';
+})

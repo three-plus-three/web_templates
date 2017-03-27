@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{urlPrefix}}/public/css/bootstrap.css" rel="stylesheet">
     <link href="{{urlPrefix}}/public/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="{{urlPrefix}}/public/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <!--<link href="/public/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">-->
-    <link href="{{urlPrefix}}/public/css/plugins/jqGrid/ui.jqgrid-bootstrap.css" rel="stylesheet">
     <link href="{{urlPrefix}}/public/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="{{urlPrefix}}/public/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
 
@@ -22,7 +19,7 @@
     {{end}}
 
   </head>
-  <body class="fixed-sidebar no-skin-config full-height-layout  pace-done">
+  <body class='{{default .fixedCls "fixed-sidebar"}} no-skin-config full-height-layout  pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
     <div id="wrapper">
       {{template "nav_siderbar.html" .}}
       <div id="page-wrapper" class="gray-bg">
