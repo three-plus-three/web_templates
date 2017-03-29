@@ -54,7 +54,7 @@
     },
     setData: function(key, value){
       if(typeof $.cookieStorage != 'undefined') {
-        $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").set(key, value);
+        $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").setExpires(365).set(key, value);
       } else if(typeof window.localStorage != 'undefined') {
         window.localStorage.setItem(key, value);
       }
@@ -116,8 +116,8 @@
         this._fillForm(innerForm, options.data)
       }
 
-      $(document.body).undelegate("#btnOk", "click");
-      $(document.body).delegate("#btnOk", "click", function() {
+      $(selector).undelegate("#btnOk", "click");
+      $(selector).delegate("#btnOk", "click", function() {
         if(innerForm.valid()) {
           var formData = innerForm.serialize();
           var dataArray = innerForm.serializeArray();
@@ -148,12 +148,33 @@
         success: function(modalHtml) {
           var $el = $(modalHtml);
           $el.appendTo($(document.body)).modal({backdrop:'static'});
+          var innerForm = $el.find("form");
 
           if(typeof options.loadCallback != "undefined") {
             options.loadCallback.call(this, $el);
           }
 
+          if(innerForm.size() > 0) {
+            $el.undelegate("#btnOk", "click");
+            $el.delegate("#btnOk", "click", function() {
+              if(innerForm.valid()) {
+                var formData = innerForm.serialize();
+                var dataArray = innerForm.serializeArray();
+                var jsonObject = App.serializeObject(dataArray);
+                var jsonData = JSON.stringify(jsonObject);
+
+                if(typeof options.submitCallback != "undefined") {
+                  options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+                }
+
+                $el.find("[data-dismiss='modal']").click();
+              }
+            });
+          }
+
           $el.one('hide.bs.modal', function () {
+            $el.undelegate("#btnOk", "click");
+            
             if(typeof options.destroyCallback != "undefined") {
               options.destroyCallback.call(this, $el);
             }
