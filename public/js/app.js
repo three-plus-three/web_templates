@@ -249,6 +249,8 @@
 })(jQuery);
 
 $(function ($) {
-  $.jgrid.defaults.responsive = true;
-  $.jgrid.defaults.styleUI = 'Bootstrap';
+  if(typeof $.jgrid != "undefined") {
+    $.jgrid.defaults.responsive = true;
+    $.jgrid.defaults.styleUI = 'Bootstrap';
+  }
 })
