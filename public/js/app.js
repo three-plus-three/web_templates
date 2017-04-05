@@ -249,8 +249,18 @@
 })(jQuery);
 
 $(function ($) {
-  if(typeof $.jgrid != "undefined") {
-    $.jgrid.defaults.responsive = true;
-    $.jgrid.defaults.styleUI = 'Bootstrap';
+  if( typeof $.fn.datepicker != "undefined") {
+    $('.form-control.date').datepicker({
+      format: "yyyy-mm-dd",
+      keyboardNavigation: false,
+      language: "zh-CN",
+      forceParse: false,
+      autoclose: true
+    });
   }
 })
+
+if(typeof $.jgrid != "undefined") {
+  $.jgrid.defaults.responsive = true;
+  $.jgrid.defaults.styleUI = 'Bootstrap';
+}
