@@ -31,6 +31,11 @@
         }
       })
     },
+    formSubmit(url, method) {
+      $("#postForm").attr("action", url)
+      $("#postForm").find("[name=_method]").val(method);
+      $("#postForm").submit()
+    },
     linkTo : function(url) {
       var newUrl = url.indexOf("/") == 0 ? url : ("/" + url);
       var fullUrl = url.indexOf("http") == 0 ? url : (window.location.origin + newUrl);
@@ -107,8 +112,10 @@
 
   window.Modal = {
     show : function(selector, callback, options) {
+      if(typeof options == "undefined") options = {resetForm:true}
+
       var innerForm = $(selector).find("form");
-      if(options.resetForm && innerForm.size() > 0 && typeof innerForm[0].reset === 'function') {
+      if(typeof options.resetForm != "undefined" && options.resetForm && innerForm.size() > 0 && typeof innerForm[0].reset === 'function') {
         innerForm[0].reset();
       }
 
@@ -123,9 +130,14 @@
           var dataArray = innerForm.serializeArray();
           var jsonObject = App.serializeObject(dataArray);
           var jsonData = JSON.stringify(jsonObject);
-          callback({form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
 
-          $(selector).find("[data-dismiss='modal']").click();
+          if(typeof callback == "function") {
+            callback({form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+          }
+
+          if(typeof options.autoClose == "undefined" || options.autoClose) {
+            $(selector).find("[data-dismiss='modal']").click();
+          }
         }
       });
 
