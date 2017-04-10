@@ -32,3 +32,15 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+body.fixed-sidebar.mini-navbar #page-wrapper {
+    margin: 0 0 0 0;
+}
+
+.footer {
+    margin-left:220px;
+}
+
+body.fixed-sidebar.mini-navbar .footer {
+    margin-left: 0;
+}
