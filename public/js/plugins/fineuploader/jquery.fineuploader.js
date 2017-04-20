@@ -1,5 +1,6 @@
 /*!
- * Fine Uploader
+ * 
+  * Uploader
  *
  * Copyright 2013, Widen Enterprises, Inc. info@fineuploader.com
  *
