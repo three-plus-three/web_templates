@@ -201,7 +201,12 @@
     _fillForm: function(form, data) {
       for(var key in data) {
         var selector = "[name='" + key + "']";
-        form.find(selector).val(data[key]);
+
+        if(typeof data[key] === "boolean") {
+          form.find(selector).prop("checked", data[key]);
+        } else {
+          form.find(selector).val(data[key]);
+        }
       }
     },
     _validateForm : function(form) {
