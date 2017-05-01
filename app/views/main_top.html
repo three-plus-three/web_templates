@@ -2,25 +2,28 @@
   <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
       <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+      <!--
       <form role="search" class="navbar-form-custom" action="search_results.html">
         <div class="form-group">
           <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
         </div>
       </form>
+      -->
     </div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <span class="m-r-sm text-muted welcome-message"></span>
+        <span class="m-r-sm text-muted welcome-message">欢迎您！</span>
       </li>
+        <!--
       <li class="dropdown">
         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-          <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+          <i class="fa fa-envelope"></i><span class="label label-warning">16</span>
         </a>
         <ul class="dropdown-menu dropdown-messages">
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <!--<img alt="image" class="img-circle" src="img/a7.jpg">-->
+                <img alt="image" class="img-circle" src="img/a7.jpg">
               </a>
               <div class="media-body">
                 <small class="pull-right">46h ago</small>
@@ -33,7 +36,7 @@
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <!--<img alt="image" class="img-circle" src="img/a4.jpg">-->
+                <img alt="image" class="img-circle" src="img/a4.jpg">
               </a>
               <div class="media-body ">
                 <small class="pull-right text-navy">5h ago</small>
@@ -46,7 +49,7 @@
           <li>
             <div class="dropdown-messages-box">
               <a href="profile.html" class="pull-left">
-                <!--<img alt="image" class="img-circle" src="img/profile.jpg">-->
+                <img alt="image" class="img-circle" src="img/profile.jpg">
               </a>
               <div class="media-body ">
                 <small class="pull-right">23h ago</small>
@@ -59,12 +62,14 @@
           <li>
             <div class="text-center link-block">
               <a href="mailbox.html">
-                <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                <i class="fa fa-envelope"></i> <strong>读所有消息</strong>
               </a>
             </div>
           </li>
         </ul>
       </li>
+          -->
+        <!--
       <li class="dropdown">
         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
           <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
@@ -100,18 +105,19 @@
           <li>
             <div class="text-center link-block">
               <a href="notifications.html">
-                <strong>See All Alerts</strong>
+                <strong>查看所有告警信息</strong>
                 <i class="fa fa-angle-right"></i>
               </a>
             </div>
           </li>
         </ul>
       </li>
+          -->
 
 
       <li>
-        <a href="login.html">
-          <i class="fa fa-sign-out"></i> Log out
+        <a href="{{.login_url}}">
+          <i class="fa fa-sign-out"></i> 退出
         </a>
       </li>
       <li>
