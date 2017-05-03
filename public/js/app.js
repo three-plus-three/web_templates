@@ -277,13 +277,17 @@
         autoclose: true
       });
     }
+
+    if(typeof bootbox != "undefined") {
+      bootbox.setDefaults("locale","zh_CN");
+    }
+
+    window.setTimeout(100, function(){
+      // $("#side-menu").trigger("mouseover");
+      $(".metismenu").trigger("mouseover");
+    });
   })
 
-  $(function(){
-    if(typeof bootbox != "undefined") {
-      bootbox.setDefaults("locale","zh_CN")
-    }
-  })
 })(jQuery);
 
 if(typeof $.jgrid != "undefined") {
