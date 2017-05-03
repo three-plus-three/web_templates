@@ -283,13 +283,13 @@
     if(typeof bootbox != "undefined") {
       bootbox.setDefaults("locale","zh_CN")
     }
-    
-    if(typeof $.jgrid != "undefined") {
-      $.jgrid.defaults.responsive = true;
-      $.jgrid.defaults.styleUI = 'Bootstrap';
-    }
   })
 })(jQuery);
+
+if(typeof $.jgrid != "undefined") {
+  $.jgrid.defaults.responsive = true;
+  $.jgrid.defaults.styleUI = 'Bootstrap';
+}
 
 
 
