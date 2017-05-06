@@ -1,15 +1,47 @@
 
 
 $(document).ready(function () {
-//init client plugins
-  $(document).ready(function () {
-    $.validator.defaults.ignore = ":hidden:not(.force-validate)";
-    $("form.validation-required").validate();
+  $.validator.defaults.ignore = ":hidden:not(.force-validate)";
+  $("form.validation-required").validate();
 
-    $('.tagsinput').tagsinput({
-      tagClass: 'label label-primary'
-    });
+  $('.tagsinput').tagsinput({
+    tagClass: 'label label-primary'
   });
+});
+
+$(document).ready(function () {
+  if($(".fixed-sidebar").hasClass())
+
+
+  function memuWheel(e) {
+    var delta = 0;
+    if (e.wheelDelta) { delta = -e.wheelDelta/120; }
+    if (e.detail) { delta = e.detail / 3; }
+
+    var newTop = parseFloat($('.sidebar-collapse').css("top"))-delta*4;
+    if(newTop < 0) {
+      newTop = 0;
+    }
+
+    $('.sidebar-collapse').css("top", newTop)
+  }
+
+  function attachWheel(target)
+  {
+    $('.sidebar-collapse').css("top", 0);
+
+    if (window.addEventListener)
+    {
+      target.addEventListener('DOMMouseScroll', memuWheel, false );
+      target.addEventListener('mousewheel', memuWheel, false );
+    }
+    else
+    {
+      document.attachEvent("onmousewheel", memuWheel)
+    }
+  }
+
+  attachWheel($('.sidebar-collapse').get(0));
 });
 
 function SmoothlyMenu() {

@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     fix_height();
 
-    // Fixed Sidebar
+    Fixed Sidebar
     $(window).bind("load", function () {
         if ($("body").hasClass('fixed-sidebar')) {
             $('.sidebar-collapse').slimScroll({

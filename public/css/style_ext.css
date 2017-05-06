@@ -83,3 +83,74 @@ body.fixed-sidebar.mini-navbar .footer {
 .jqGrid-wrapper.full-height {
     height: calc(100% - 10px);
 }
+
+/********adjust side menu******/
+
+body.fixed-sidebar.mini-navbar .navbar-static-side {
+    width: 70px;
+}
+
+body.fixed-sidebar.mini-navbar #page-wrapper {
+    margin-left: 70px;
+}
+
+body.fixed-sidebar.mini-navbar .navbar-default .nav > li > a {
+    font-size: 16px;
+}
+
+body.fixed-sidebar.mini-navbar .navbar-default .metismenu.nav > li > a > span {
+    display: none;
+}
+
+
+.fixed-sidebar.mini-navbar .nav .nav-second-level {
+    position: absolute;
+    left: 70px;
+    top: 0;
+    background-color: #2f4050;
+    padding: 10px 10px 10px 10px;
+    font-size: 12px;
+}
+
+body.fixed-sidebar.mini-navbar li.active .nav-second-level {
+    left: 65px;
+}
+
+body.fixed-sidebar.mini-navbar .nav li:hover > .nav-second-level{
+    display: block;
+    border-radius: 0 2px 2px 0;
+    min-width: 210px;
+    height: auto;
+}
+
+body.fixed-sidebar.mini-navbar .nav-second-level {
+    display: none;
+}
+
+body.fixed-sidebar.mini-navbar .nav-header {
+    padding:20px 3px;
+}
+
+body.fixed-sidebar.mini-navbar #wrapper .brand {
+    left:15px;
+    top:3px;
+    width:35px;
+    height:35px;
+}
+
+body.fixed-sidebar.mini-navbar .nav-header {
+    background-color: transparent;
+}
+
+body.fixed-sidebar.mini-navbar .nav li > .nav-second-level {
+    border-radius: 0 2px 2px 0;
+    min-width: 200px;
+    height: auto;
+}
+
+
+body.fixed-sidebar.mini-navbar .sidebar-collapse {
+    position:relative;
+}
+
+/********adjust side menu******/
