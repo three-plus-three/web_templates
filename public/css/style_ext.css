@@ -96,6 +96,7 @@ body.fixed-sidebar.mini-navbar #page-wrapper {
 
 body.fixed-sidebar.mini-navbar .navbar-default .nav > li > a {
     font-size: 16px;
+    padding: 10px 10px 12px 20px;
 }
 
 body.fixed-sidebar.mini-navbar .navbar-default .metismenu.nav > li > a > span {

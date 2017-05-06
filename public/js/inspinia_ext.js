@@ -10,38 +10,42 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-  if($(".fixed-sidebar").hasClass())
+  if($(".fixed-sidebar").hasClass("mini-navbar")) {
+    window.setTimeout(function(){
+      $('.sidebar-collapse').slimScroll({destroy:true});
+      $('.sidebar-collapse').css("overflow", "visible");
+    }, 100);
 
-
-  function memuWheel(e) {
-    var delta = 0;
-    if (e.wheelDelta) { delta = -e.wheelDelta/120; }
-    if (e.detail) { delta = e.detail / 3; }
-
-    var newTop = parseFloat($('.sidebar-collapse').css("top"))-delta*4;
-    if(newTop < 0) {
-      newTop = 0;
-    }
-
-    $('.sidebar-collapse').css("top", newTop)
   }
-
-  function attachWheel(target)
-  {
-    $('.sidebar-collapse').css("top", 0);
-
-    if (window.addEventListener)
-    {
-      target.addEventListener('DOMMouseScroll', memuWheel, false );
-      target.addEventListener('mousewheel', memuWheel, false );
-    }
-    else
-    {
-      document.attachEvent("onmousewheel", memuWheel)
-    }
-  }
-
-  attachWheel($('.sidebar-collapse').get(0));
+  // function memuWheel(e) {
+  //   var delta = 0;
+  //   if (e.wheelDelta) { delta = -e.wheelDelta/120; }
+  //   if (e.detail) { delta = e.detail / 3; }
+  //
+  //   var newTop = parseFloat($('.sidebar-collapse').css("top"))-delta*4;
+  //   if(newTop < 0) {
+  //     newTop = 0;
+  //   }
+  //
+  //   $('.sidebar-collapse').css("top", newTop)
+  // }
+  //
+  // function attachWheel(target)
+  // {
+  //   $('.sidebar-collapse').css("top", 0);
+  //
+  //   if (window.addEventListener)
+  //   {
+  //     target.addEventListener('DOMMouseScroll', memuWheel, false );
+  //     target.addEventListener('mousewheel', memuWheel, false );
+  //   }
+  //   else
+  //   {
+  //     document.attachEvent("onmousewheel", memuWheel)
+  //   }
+  // }
+  //
+  // attachWheel($('.sidebar-collapse').get(0));
 });
 
 function SmoothlyMenu() {
@@ -66,5 +70,17 @@ function SmoothlyMenu() {
   } else {
     // Remove all inline style from jquery fadeIn function to reset menu state
     $('#side-menu').removeAttr('style');
+  }
+
+  if ($('body').hasClass('fixed-sidebar')) {
+    if($(".fixed-sidebar").hasClass("mini-navbar")) {
+      $('.sidebar-collapse').slimScroll({destroy:true});
+      $('.sidebar-collapse').css("overflow", "visible");
+    } else {
+      $('.sidebar-collapse').slimScroll({
+        height: '100%',
+        railOpacity: 0.9
+      });
+    }
   }
 }
