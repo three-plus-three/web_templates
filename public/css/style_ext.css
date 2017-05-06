@@ -42,7 +42,7 @@ body.fixed-sidebar.mini-navbar #page-wrapper {
 }
 
 body.fixed-sidebar.mini-navbar .footer {
-    margin-left: 0;
+    margin: 0 0 0 70px !important;
 }
 
 .nav-header {
@@ -95,8 +95,8 @@ body.fixed-sidebar.mini-navbar #page-wrapper {
 }
 
 body.fixed-sidebar.mini-navbar .navbar-default .nav > li > a {
-    font-size: 16px;
-    padding: 10px 10px 12px 20px;
+    font-size: 18px;
+    padding: 10px 10px 10px 25px;
 }
 
 body.fixed-sidebar.mini-navbar .navbar-default .metismenu.nav > li > a > span {
@@ -129,14 +129,14 @@ body.fixed-sidebar.mini-navbar .nav-second-level {
 }
 
 body.fixed-sidebar.mini-navbar .nav-header {
-    padding:20px 3px;
+    padding:12px 3px;
 }
 
 body.fixed-sidebar.mini-navbar #wrapper .brand {
-    left:15px;
+    left:12px;
     top:3px;
-    width:35px;
-    height:35px;
+    width:40px;
+    height:40px;
 }
 
 body.fixed-sidebar.mini-navbar .nav-header {
