@@ -28,5 +28,13 @@
     <script src="{{urlPrefix}}{{.}}" type="text/javascript" charset="utf-8"></script>
     {{- end}}
 
+    <script>
+      if (tpt_form_callbacks != null) {
+        for(idx in tpt_form_callbacks) {
+          tpt_form_callbacks[idx].call()
+        }
+      }
+    </script>
+
   </body>
 </html>
