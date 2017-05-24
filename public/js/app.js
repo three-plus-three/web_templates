@@ -96,6 +96,9 @@
   };
 
   window.Msg = {
+    confirm : function(msg, callback) {
+      bootbox.confirm(msg, callback);
+    },
     success : function(msg) {
       toastr.success(msg);
     },
@@ -263,21 +266,34 @@
       $(targetSelector).submit();
     }
   })
-})(jQuery);
 
-$(function ($) {
-  if( typeof $.fn.datepicker != "undefined") {
-    $('.form-control.date').datepicker({
-      format: "yyyy-mm-dd",
-      keyboardNavigation: false,
-      language: "zh-CN",
-      forceParse: false,
-      autoclose: true
+  $(function ($) {
+    if( typeof $.fn.datepicker != "undefined") {
+      $('.form-control.date').datepicker({
+        format: "yyyy-mm-dd",
+        keyboardNavigation: false,
+        language: "zh-CN",
+        forceParse: false,
+        autoclose: true
+      });
+    }
+
+    if(typeof bootbox != "undefined") {
+      bootbox.setDefaults("locale","zh_CN");
+    }
+
+    window.setTimeout(100, function(){
+      // $("#side-menu").trigger("mouseover");
+      $(".metismenu").trigger("mouseover");
     });
-  }
-})
+  })
+
+})(jQuery);
 
 if(typeof $.jgrid != "undefined") {
   $.jgrid.defaults.responsive = true;
   $.jgrid.defaults.styleUI = 'Bootstrap';
 }
+
+
+

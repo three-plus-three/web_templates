@@ -147,7 +147,7 @@ $(document).ready(function () {
 
     // Fixed Sidebar
     $(window).bind("load", function () {
-        if ($("body").hasClass('fixed-sidebar')) {
+        if ($("body").hasClass('fixed-sidebar') && !$(".fixed-sidebar").hasClass("mini-navbar")) {
             $('.sidebar-collapse').slimScroll({
                 height: '100%',
                 railOpacity: 0.9
@@ -262,7 +262,6 @@ function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
         // Hide menu in order to smoothly turn on when maximize menu
         $('#side-menu').hide();
-        // For smoothly turn on menu
         setTimeout(
             function () {
                 $('#side-menu').fadeIn(400);

@@ -8,6 +8,7 @@
 		required: "这是必填字段",
 		remote: "请修正此字段",
 		email: "请输入有效的电子邮件地址",
+    emails: "请输入正确格式的电子邮件, 每行一个地址",
 		url: "请输入有效的网址",
 		date: "请输入有效的日期",
 		dateISO: "请输入有效的日期 (YYYY-MM-DD)",
@@ -24,7 +25,8 @@
 		max: $.validator.format( "请输入不大于 {0} 的数值" ),
 		min: $.validator.format( "请输入不小于 {0} 的数值" ),
 		ipv4: $.validator.format( "请输入有效的IP地址" ),
-		ipv6: $.validator.format( "请输入有效的IPV6地址" )
+		ipv6: $.validator.format( "请输入有效的IPV6地址" ),
+    ipsegs_n: "请输入合法的IP地址段，每行输入一个地址或地址段"
 	} );
 
 })(jQuery)
