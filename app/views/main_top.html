@@ -112,20 +112,22 @@
           </li>
         </ul>
       </li>
-          -->
-
+      -->
 
       <li>
-        <a href="{{.login_url}}">
+        <a href="{{.global.user_logout_url}}">
           <i class="fa fa-sign-out"></i> 退出
         </a>
       </li>
-      <li>
+      <!-- li>
         <a class="right-sidebar-toggle">
           <i class="fa fa-tasks"></i>
         </a>
-      </li>
+      </li -->
     </ul>
-
+    {{- if .global.alert_stat_new_url}}
+    <ul class="nav navbar-top-links navbar-right alert-bar-wrapper consequent-load" remote-url="{{.global.alert_stat_new_url}}">
+    </ul>
+    {{- end}}
   </nav>
 </div>
