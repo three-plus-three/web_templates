@@ -9,7 +9,7 @@
     <link href="{{urlPrefix "/public/css/bootstrap.min.css"}}" rel="stylesheet">
     <link href="{{urlPrefix "/public/css/animate.css"}}" rel="stylesheet">
     <link href="{{urlPrefix "/public/css/style.css"}}" rel="stylesheet">
-    <link href="{{urlPrefix "/public/css/style_ext.css"}}" rel="stylesheet">
+    <!-- link href="{{urlPrefix "/public/css/style_ext.css"}}" rel="stylesheet" -->
 
 
     <link href="{{urlPrefix "/public/font-awesome/css/font-awesome.min.css"}}" rel="stylesheet">
@@ -23,10 +23,11 @@
     {{- end}}
     <script>
       var urlPrefix = {{.global.url_root}};
+      var applicationRoot = {{.global.application_root}};
       var tpt_form_callbacks = new Array();
     </script>
   </head>
-  <body class='{{default .fixedCls "fixed-sidebar"}} no-skin-config full-height-layout  pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
+  <body class='{{default .fixedCls "fixed-sidebar"}} pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
         <input type="hidden" id="urlPrefix" value="{{.global.url_prefix}}" />
         <input type="hidden" id="alertAudioSetting" value="{{.global.alertAudioSetting}}" />
         <input type="hidden" id="keepEmpty" value="false" />
