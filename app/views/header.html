@@ -22,29 +22,18 @@
       <link rel="stylesheet" type="text/css" href="{{urlPrefix .}}">
     {{- end}}
     <script>
-      function endsWith(s, suffix){
-        if (suffix==null || suffix.length==0) {
-          return false;
-        }
-
-        if (s==null || s.length==0) {
-          return false;
-        }
-
-        if(suffix.length>s.length) {
-          return false;
-        }
-
-        return (s.substring(s.length-suffix.length)==suffix)
-      }
-
       var urlPrefix = {{.global.url_root}};
       var applicationRoot = {{.global.application_root}};
 
-      if(endsWith(urlPrefix, "/")) {
+      if (urlPrefix != null && 
+          urlPrefix.length >= "/".length && 
+          urlPrefix.substring(urlPrefix.length-"/".length) == "/") {
         urlPrefix = urlPrefix.substring(0, urlPrefix.length-"/".length)
       }
-      if(endsWith(applicationRoot, "/")) {
+
+      if (applicationRoot != null && 
+          applicationRoot.length >= "/".length && 
+          applicationRoot.substring(applicationRoot.length-"/".length) == "/") {
         applicationRoot = applicationRoot.substring(0, applicationRoot.length-"/".length)
       }
 
