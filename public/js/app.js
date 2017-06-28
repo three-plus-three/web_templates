@@ -118,7 +118,7 @@
       if(typeof options == "undefined") options = {resetForm:true}
 
       var innerForm = $(selector).find("form");
-      if(typeof options.resetForm != "undefined" && options.resetForm && innerForm.size() > 0 && typeof innerForm[0].reset === 'function') {
+      if(typeof options.resetForm != "undefined" && options.resetForm && innerForm.length > 0 && typeof innerForm[0].reset === 'function') {
         innerForm[0].reset();
       }
 
@@ -169,7 +169,7 @@
             options.loadCallback.call(this, $el);
           }
 
-          if(innerForm.size() > 0) {
+          if(innerForm.length > 0) {
             $el.undelegate("#btnOk", "click");
             $el.delegate("#btnOk", "click", function() {
               if(innerForm.valid()) {
@@ -225,13 +225,13 @@
         success: function (element) {
           $(element).parents('.form-group').removeClass('error').addClass('success');
           var wrap = $(element).parents('.controls:not(:has(.clean))');
-          if(wrap.find(".help-block").size() > 0)
+          if(wrap.find(".help-block").length > 0)
             wrap.find('.help-block').before('<div class="clean"></div>');
           else
             wrap.find('div:last').before('<div class="clean"></div>');
         },
         errorPlacement: function (error, element) {
-          if (element.parents('.controls').size() > 0)
+          if (element.parents('.controls').length > 0)
             error.appendTo(element.parents('.controls'));
           else
             error.appendTo(element.parent());
