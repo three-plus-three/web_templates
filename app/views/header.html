@@ -22,13 +22,37 @@
       <link rel="stylesheet" type="text/css" href="{{urlPrefix .}}">
     {{- end}}
     <script>
+      function endsWith(s, suffix){
+        if (suffix==null || suffix.length==0) {
+          return false;
+        }
+
+        if (s==null || s.length==0) {
+          return false;
+        }
+
+        if(suffix.length>s.length) {
+          return false;
+        }
+
+        return (s.substring(s.length-suffix.length)==suffix)
+      }
+
       var urlPrefix = {{.global.url_root}};
       var applicationRoot = {{.global.application_root}};
+
+      if(endsWith(urlPrefix, "/")) {
+        urlPrefix = urlPrefix.substring(0, urlPrefix.length-"/".length)
+      }
+      if(endsWith(applicationRoot, "/")) {
+        applicationRoot = applicationRoot.substring(0, applicationRoot.length-"/".length)
+      }
+
       var tpt_form_callbacks = new Array();
     </script>
   </head>
   <body class='{{default .fixedCls "fixed-sidebar"}} pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
-        <input type="hidden" id="urlPrefix" value="{{.global.url_prefix}}" />
+        <input type="hidden" id="urlPrefix" value="{{.global.url_root}}" />
         <input type="hidden" id="alertAudioSetting" value="{{.global.alertAudioSetting}}" />
         <input type="hidden" id="keepEmpty" value="false" />
 
