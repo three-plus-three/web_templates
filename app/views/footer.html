@@ -68,7 +68,15 @@
       {{range .moreLazyStyles}}
         link=document.createElement('link');
   　　　link.rel="stylesheet";
-  　　　link.href=urlPrefix + {{.}};
+  　　　link.href=applicationRoot + {{.}};
+  　　　head.appendChild(link);
+      {{end}}
+
+      // 动态添加 js 链接
+      {{range .moreLazyScripts}}
+        link=document.createElement('script');
+  　　　link.type="text/javascript";
+  　　　link.src=applicationRoot + {{.}};
   　　　head.appendChild(link);
       {{end}}
 
