@@ -31,7 +31,7 @@
         }
       })
     },
-    formSubmit(url, method) {
+    formSubmit: function(url, method) {
       $("#postForm").attr("action", url)
       $("#postForm").find("[name=_method]").val(method);
       $("#postForm").submit()
