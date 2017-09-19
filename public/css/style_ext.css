@@ -59,6 +59,10 @@ body.fixed-sidebar.mini-navbar .footer {
     padding: 3px 25px 20px 25px;
 }
 
+.modal-xlg {
+    width:1100px;
+}
+
 .modal-body .bootstrap-tagsinput {
     width:100%;
 }
