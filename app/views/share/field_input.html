@@ -1,0 +1,27 @@
+
+{{$labelWidth := (default "3" .labelWidth)}}
+{{$controlWidth := (default "9" .controlWidth)}}
+{{if in "input_type.text" .field.Annotations}}
+  {{text_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v:" .field.Name) | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+{{end}}
+
+{{if in "input_type.area" .field.Annotations}}
+  {{textarea_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+{{end}}
+
+{{if in "input_type.select" .field.Annotations}}
+  {{if .field.Restrictions}}
+    {{select_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v:" .field.Name) (toInputChoices .field.Restrictions.Enumerations)| f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | render}}
+  {{else}}
+    {{select_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v:" .field.Name) `[]` | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | render}}
+  {{end}}
+{{end}}
+
+{{if in "input_type.checkbox" .field.Annotations}}
+  {{if eq .value "true"}}
+    {{checkbox_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v" .field.Name) | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+  {{else}}
+    {{checkbox_field . (formatStr "%v%v" .namePrefix (default ".Value" .nameSuffix)) (formatStr "%v" .field.Name) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+  {{end}}
+
+{{end}}
