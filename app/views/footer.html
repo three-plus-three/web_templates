@@ -9,8 +9,7 @@
           {{.global.footer_copyright_text}}
         </div>
       </div>
-
-      {{template "right-sidebar.html" .}}
+      {{- template "right-sidebar.html" .}}
     </div>
     <form id="postForm" method="POST">
       <input type="hidden" name="_method" value="POST" />
@@ -65,20 +64,20 @@
       var link = null;
 
       // 动态添加 css 链接
-      {{range .moreLazyStyles}}
+      {{- range .moreLazyStyles}}
         link=document.createElement('link');
   　　　link.rel="stylesheet";
   　　　link.href=applicationRoot + {{.}};
   　　　head.appendChild(link);
-      {{end}}
+      {{- end}}
 
       // 动态添加 js 链接
-      {{range .moreLazyScripts}}
+      {{- range .moreLazyScripts}}
         link=document.createElement('script');
   　　　link.type="text/javascript";
   　　　link.src=applicationRoot + {{.}};
   　　　head.appendChild(link);
-      {{end}}
+      {{- end}}
 
 　　</script>
     <script type="text/javascript">
