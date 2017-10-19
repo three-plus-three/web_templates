@@ -2,11 +2,11 @@
 {{$labelWidth := (default .labelWidth "3" )}}
 {{$controlWidth := (default .controlWidth "9" )}}
 {{if in "input_type.text" .field.Annotations}}
-  {{text_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+  {{text_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field.IsRequired .field.Type) | render}}
 {{end}}
 
 {{if in "input_type.area" .field.Annotations}}
-  {{textarea_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+  {{textarea_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field.IsRequired .field.Type) | render}}
 {{end}}
 
 {{if in "input_type.select" .field.Annotations}}
@@ -19,9 +19,8 @@
 
 {{if in "input_type.checkbox" .field.Annotations}}
   {{if eq .value "true"}}
-    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field.IsRequired .field.Type) | render}}
   {{else}}
-    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field) | render}}
+    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass (fieldClasses .field.IsRequired .field.Type) | render}}
   {{end}}
-
 {{end}}
