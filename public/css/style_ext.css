@@ -126,6 +126,14 @@ body.fixed-sidebar.mini-navbar .navbar-default .metismenu.nav > li > a > span {
     display: none;
 }
 
+.metismenu .divider {
+    margin: 4px 10px;
+    height: 1px;
+    overflow: hidden;
+    background-color: rgba(229, 229, 229, 0.08);
+    border-bottom: 1px solid #ffffff;
+}
+
 
 .fixed-sidebar.mini-navbar .nav .nav-second-level {
     position: absolute;
