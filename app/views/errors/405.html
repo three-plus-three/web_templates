@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Not found</title>
+		<title>Method not allowed</title>
 	</head>
 	<body>
-
-{{if .DevMode}}
-
-{{template "errors/404-dev.html" .}}
-
-{{else}}
-
 	{{with .Error}}
 	<h1>
 		{{.Title}}
@@ -19,8 +12,5 @@
 		{{.Description}}
 	</p>
 	{{end}}
-
-{{end}}
-
 	</body>
 </html>
