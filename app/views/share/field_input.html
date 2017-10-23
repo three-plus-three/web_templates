@@ -1,22 +1,25 @@
-
 {{$labelWidth := (default .labelWidth "3" )}}
 {{$controlWidth := (default .controlWidth "9" )}}
-{{if in "input_type.text" .field.Annotations}}
-  {{text_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) | render}}
-{{end}}
 
-{{if in "input_type.area" .field.Annotations}}
-  {{textarea_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) | render}}
-{{end}}
 
-{{if in "input_type.select" .field.Annotations}}
-    {{select_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v:" .field.Name) (.field.ToChoices)| f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | render}}
-{{end}}
-
-{{if in "input_type.checkbox" .field.Annotations}}
-  {{if eq .value "true"}}
-    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) | render}}
+{{if eq (print  (index .field.Annotations "input_type")) "text"}}
+  {{text_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+{{else if  eq (print  (index .field.Annotations "input_type")) "area"}}
+  {{textarea_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+{{else if eq (print  (index .field.Annotations "input_type")) "select"}}
+  {{if isChoiceQueryFromDB .field}}
+    {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) (queryChoices .field)| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
   {{else}}
-    {{checkbox_field . (printf "%v%v" .namePrefix (default .nameSuffix "" )) (printf "%v" .field.Name) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) | render}}
+    {{if .field.HasChoices}}
+      {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+    {{else}}
+      {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) `[]` | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+    {{end}}
+  {{end}}
+{{else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
+  {{if eq .value "true"}}
+    {{checkbox_field . (printf "%v%v" .namePrefix ".Value") (printf "%v" .field.Name) | f_addTag "checked" | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+  {{else}}
+    {{checkbox_field . (printf "%v%v" .namePrefix ".Value") (printf "%v" .field.Name) | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
   {{end}}
 {{end}}
