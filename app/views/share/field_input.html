@@ -7,14 +7,10 @@
 {{else if  eq (print  (index .field.Annotations "input_type")) "area"}}
   {{textarea_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) 5 0 | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
 {{else if eq (print  (index .field.Annotations "input_type")) "select"}}
-  {{if isChoiceQueryFromDB .field}}
-    {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) (queryChoices .field)| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+  {{if .field.HasChoices}}
+    {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
   {{else}}
-    {{if .field.HasChoices}}
-      {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
-    {{else}}
-      {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) `[]` | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
-    {{end}}
+    {{select_field . (printf "%v%v" .namePrefix ".Value") (printf "%v:" .field.Name) `[]` | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
   {{end}}
 {{else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
   {{if eq .value "true"}}
