@@ -290,6 +290,26 @@
 
 })(jQuery);
 
+
+//enable consequent-load
+$(function(){
+  $(".consequent-load").each(function () {
+    var self = $(this);
+    var interval = 10000;
+    if(self.attr("refresh-interval")) {
+      interval = parseInt(self.attr("refresh-interval")) * 1000;
+    }
+
+    function loadPart() {
+      self.load(self.attr("remote-url"), "", function (response, status, xhr) {
+        window.setTimeout(loadPart, interval);
+      });
+    }
+
+    loadPart();
+  });
+})
+
 if(typeof $.jgrid != "undefined") {
   $.jgrid.defaults.responsive = true;
   $.jgrid.defaults.styleUI = 'Bootstrap';
