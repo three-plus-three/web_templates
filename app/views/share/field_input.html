@@ -11,7 +11,7 @@
 {{- else if eq (print  (index .field.Annotations "input_type")) "select"}}
   {{- if .field.HasChoices}}
     {{- if .field.IsArray}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices )| f_addClass "chosen"| f_multiple | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices )| f_addClass "chosen"| f_addParams "data-placeholder" f_multiple | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
     {{- else}}
       {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
     {{- end}}
