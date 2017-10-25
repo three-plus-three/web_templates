@@ -1,26 +1,27 @@
 {{- $labelWidth := (default .labelWidth "3" )}}
 {{- $controlWidth := (default .controlWidth "9" )}}
 {{- $fieldName := (default .fieldName .field.Name )}}
+{{- $fieldLabel := (default .field.Label .field.Name )}}
 
 
 {{- if eq (print  (index .field.Annotations "input_type")) "text"}}
-  {{text_field . $fieldName (concat .field.Label ":") | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+  {{text_field . $fieldName (concat $fieldLabel ":") | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
 {{- else if  eq (print  (index .field.Annotations "input_type")) "area"}}
-  {{textarea_field . $fieldName (concat .field.Label ":") 5 0 | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+  {{textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "select"}}
   {{- if .field.HasChoices}}
     {{- if .field.IsArray}}
-      {{select_field . $fieldName (concat .field.Label ":") ( .field.ToChoices )| f_addClass "chosen"| f_multiple | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices )| f_addClass "chosen"| f_multiple | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
     {{- else}}
-      {{select_field . $fieldName (concat .field.Label ":") ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
     {{- end}}
   {{- else}}
-    {{select_field . $fieldName (concat .field.Label ":") `[]` | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
+    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
   {{- if eq (toString .value) "true"}}
-    {{checkbox_field . $fieldName  .field.Label | f_addTag "checked" | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+    {{checkbox_field . $fieldName  $fieldLabel | f_addTag "checked" | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
   {{- else}}
-    {{checkbox_field . $fieldName .field.Label | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
+    {{checkbox_field . $fieldName $fieldLabel | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
   {{- end}}
 {{- end}}
