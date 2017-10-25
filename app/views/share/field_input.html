@@ -8,7 +8,7 @@
 {{textarea_field . (concat .namePrefix ".Value") (concat .field.Name ":") 5 0 | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | f_addClass ( .field.CSSClasses ) | render}}
 {{else if eq (print  (index .field.Annotations "input_type")) "select"}}
   {{if .field.HasChoices}}
-    {{if .field.IsMultipleChoices}}
+    {{if .field.IsArray}}
       {{select_field . (concat .namePrefix ".Value") (concat .field.Name ":") ( .field.ToChoices )| f_addClass "chosen"| f_multiple | f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
     {{else}}
       {{select_field . (concat .namePrefix ".Value") (concat .field.Name ":") ( .field.ToChoices )| f_setValue .value | f_addData "labelWidth" "3" | f_addData "controlWidth" "9" | render}}
