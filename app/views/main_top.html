@@ -12,7 +12,7 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <span class="m-r-sm text-muted welcome-message">{{if .currentUsername}}{{.currentUsername}}{{else}}欢迎您！{{end}}</span>
+        <span class="m-r-sm text-muted welcome-message">{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}欢迎您！{{end}}</span>
       </li>
         <!--
       <li class="dropdown">
@@ -119,12 +119,26 @@
           <i class="fa fa-sign-out"></i> 退出
         </a>
       </li>
+      <!-- <li>
+          <a id="exchangeButton" class=""><i class="fa fa-exchange"></i></a>
+      </li> -->
       <!-- li>
         <a class="right-sidebar-toggle">
           <i class="fa fa-tasks"></i>
         </a>
       </li -->
     </ul>
+
+    {{- if .global.managed_objects_url}}
+    <ul class="nav navbar-top-links navbar-right stat-bar-wrapper consequent-load" refresh-interval="60" remote-url="{{.global.managed_objects_url}}">
+    </ul>
+    {{- end}}
+
+    {{- if .global.backgroud_tasks_url}}
+    <ul class="nav navbar-top-links navbar-right entries" url-prefix="{{.global.backgroud_tasks_url}}">
+    </ul>
+    {{- end}}
+
     {{- if .global.alert_stat_new_url}}
     <ul class="nav navbar-top-links navbar-right alert-bar-wrapper consequent-load" remote-url="{{.global.alert_stat_new_url}}">
     </ul>
