@@ -12,7 +12,9 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <span class="m-r-sm text-muted welcome-message">{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}欢迎您！{{end}}</span>
+        <a href="/hengwei/web/users/i">
+            <i class="fa fa-user"></i>{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}欢迎您！{{end}}
+        </a>
       </li>
         <!--
       <li class="dropdown">
