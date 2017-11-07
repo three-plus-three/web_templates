@@ -189,3 +189,7 @@ body.fixed-sidebar.mini-navbar .sidebar-collapse {
 .pagination {
     margin: 0;
 }
+
+navbar.navbar-static-top .navbar-top-links:nth-child(2) {
+    margin-right: 10px;
+}
