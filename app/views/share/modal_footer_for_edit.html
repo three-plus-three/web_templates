@@ -2,6 +2,22 @@
 
         </div>
       <div class="modal-footer">
+        {{- if .buttons}}
+          {{- range .buttons}}
+
+            {{if .type }}
+            {{if eq .type "link"}}
+        <a {{if .id}}id="{{.id}}"{{end}} href='{{.url}}'  class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}">
+            {{.title}}
+        </a>
+            {{else}}
+        <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{.title}}</button>
+            {{- end}}
+            {{else}}
+        <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{.title}}</button>
+            {{- end}}
+          {{- end}}
+        {{- end}}
         <button id="btnOk" type="{{if .btnOkType}}{{.btnOkType}}{{else}}button{{end}}" class="btn btn-primary">确定</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
       </div>
