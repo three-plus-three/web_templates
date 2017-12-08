@@ -67,6 +67,14 @@ body.fixed-sidebar.mini-navbar .footer {
     width:100%;
 }
 
+.modal-dialog.no-scroll > .modal-content > .modal-body {
+    overflow: visible;
+}
+
+.modal-dialog.no-v-scroll > .modal-content > .modal-body {
+    overflow-y: visible;
+}
+
 .ibox.full-height {
     position: relative;
     margin-bottom: 0;
