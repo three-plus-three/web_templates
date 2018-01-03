@@ -1,8 +1,7 @@
 {{- $labelWidth := (default .labelWidth "3" )}}
 {{- $controlWidth := (default .controlWidth "9" )}}
 {{- $fieldName := (default .fieldName .field.Name )}}
-{{- $fieldLabel := (default .field.Label .field.Name )}}
-
+{{- $fieldLabel := (default .fieldLabel (default .field.Label .field.Name)) }}
 
 {{- if eq (print  (index .field.Annotations "input_type")) "text"}}
   {{text_field . $fieldName (concat $fieldLabel ":") | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) | render}}
