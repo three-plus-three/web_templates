@@ -158,4 +158,20 @@ $(function(){
       return false;
     }
   });
+
+  $(document.body).delegate("a.trigger", "click", function (event) {
+    var url = $(event.target).parents('[data-toggle="dialog"]').attr("remote-url");
+    var index = $(this).attr("index");
+    if (url) {
+      if(index) {
+        url += url.indexOf("?") > 0 ? ("&index=" + index) : ("?index=" + index)
+      }
+
+      if (typeof DialogUtils != 'undefined') {
+        DialogUtils.show(url);
+      } else {
+        Modal.showRemote(url);
+      }
+    }
+  })
 });
