@@ -12,6 +12,14 @@
     margin-top: 10px;
 }
 
+#page-wrapper.no-layout {
+    margin: 0 0 0 0;
+}
+
+#page-wrapper.no-layout > .fh-no-breadcrumb > .ibox{
+    margin-bottom: 0;
+}
+
 #page-wrapper > .alert {
     margin-top: 2px;
     margin-bottom: 1px;
