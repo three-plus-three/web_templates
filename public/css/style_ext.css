@@ -14,10 +14,15 @@
 
 #page-wrapper.no-layout {
     margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 #page-wrapper.no-layout > .fh-no-breadcrumb > .ibox{
     margin-bottom: 0;
+}
+
+#page-wrapper.no-layout > .fh-no-breadcrumb > .ibox > .ibox-content {
+    padding-bottom: 0;
 }
 
 #page-wrapper > .alert {
