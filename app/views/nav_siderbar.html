@@ -32,7 +32,7 @@
                     <li class="divider"></li>
                       {{- else if current_user_has_menu $ $third_menu.Permission }}
                     <li class="{{$menu.Classes}} {{if $third_menu.IsActiveWith $ }}active{{end}}">
-                      <a href="{{$third_menu.URL}}"><i class="fa {{$second_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+                      <a href="{{$third_menu.URL}}"><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
                     </li>
                         {{- if $third_menu.Children}}{{$third_menu.Fail}}{{end -}}
                       {{- end}}
