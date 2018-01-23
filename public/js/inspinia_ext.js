@@ -137,3 +137,41 @@ $(function(){
     }
   });
 })
+
+$(function(){
+  $(document.body).delegate("#side-menu .nav > li > a", "click", function(event){
+    if($(this).find("> i.show-remote").length > 0) {
+      var url = $(this).attr("href");
+      if (typeof DialogUtils != 'undefined') {
+        DialogUtils.show(url);
+      } else {
+        Modal.showRemote(url);
+      }
+      event.preventDefault();
+      return false;
+    }
+
+    if($(this).find("> i.open-window").length > 0) {
+      var url = $(this).attr("href");
+      event.preventDefault();
+      window.open(url);
+      return false;
+    }
+  });
+
+  $(document.body).delegate("a.trigger", "click", function (event) {
+    var url = $(event.target).parents('[data-toggle="dialog"]').attr("remote-url");
+    var index = $(this).attr("index");
+    if (url) {
+      if(index) {
+        url += url.indexOf("?") > 0 ? ("&index=" + index) : ("?index=" + index)
+      }
+
+      if (typeof DialogUtils != 'undefined') {
+        DialogUtils.show(url);
+      } else {
+        Modal.showRemote(url);
+      }
+    }
+  })
+});
