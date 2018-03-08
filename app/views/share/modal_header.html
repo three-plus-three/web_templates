@@ -7,4 +7,8 @@
         <h4 class="modal-title">{{.title}}</h4>
       </div>
       <div class="modal-body">
+        {{/*{{预置的modal内容  在body开头显示 暂时用于上传文件控件中的提示信息 }}*/}}
+        {{if $.bodyContent}}
+            {{ html $.bodyContent }}
+        {{end}}
 
