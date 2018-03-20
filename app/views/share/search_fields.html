@@ -1,0 +1,11 @@
+<div class="input-group-btn search-panel">
+  <input type="hidden" name="searchParam" value="{{(index .matchFields 0).Value}}">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    <span id="searchConcept">{{(index .matchFields 0).Label}}</span> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+  {{range $filed := .matchFields}}
+    <li><a href="#{{$filed.Value}}">{{$filed.Label}}</a></li>
+  {{end}}
+  </ul>
+</div>
