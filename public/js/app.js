@@ -126,23 +126,31 @@
         this._fillForm(innerForm, options.data)
       }
 
+      $(selector).undelegate("#btnOk", "submit");
       $(selector).undelegate("#btnOk", "click");
-      $(selector).delegate("#btnOk", "click", function() {
-        if(innerForm.valid()) {
-          var formData = innerForm.serialize();
-          var dataArray = innerForm.serializeArray();
-          var jsonObject = App.serializeObject(dataArray);
-          var jsonData = JSON.stringify(jsonObject);
+      if($(selector).find("#btnOk").attr("type") == "submit") {
+        $(selector).delegate("#btnOk", "click", function(event) {
+          $(selector).find(".modal-body form:first").submit();
+          return false;
+        });
+      } else {
+        $(selector).delegate("#btnOk", "click", function() {
+          if(innerForm.valid()) {
+            var formData = innerForm.serialize();
+            var dataArray = innerForm.serializeArray();
+            var jsonObject = App.serializeObject(dataArray);
+            var jsonData = JSON.stringify(jsonObject);
 
-          if(typeof callback == "function") {
-            callback({form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
-          }
+            if(typeof callback == "function") {
+              callback({form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+            }
 
-          if(typeof options.autoClose == "undefined" || options.autoClose) {
-            $(selector).find("[data-dismiss='modal']").click();
+            if(typeof options.autoClose == "undefined" || options.autoClose) {
+              $(selector).find("[data-dismiss='modal']").click();
+            }
           }
-        }
-      });
+        });
+      }
 
       $(selector).one('shown.bs.modal', function () {
         //to be fixed
