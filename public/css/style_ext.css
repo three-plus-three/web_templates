@@ -8,6 +8,10 @@
     height: 60px;
 }
 
+.ibox-content.fit {
+    padding:1px 1px 1px 1px;
+}
+
 .ibox-content > form {
     margin-top: 10px;
 }
@@ -126,6 +130,10 @@ body.fixed-sidebar.mini-navbar .navbar-static-side {
 
 body.fixed-sidebar.mini-navbar #page-wrapper {
     margin-left: 70px;
+}
+
+body.fixed-sidebar.mini-navbar #page-wrapper.no-layout {
+    margin-left: 0;
 }
 
 body.fixed-sidebar.mini-navbar .navbar-default .nav > li > a {
