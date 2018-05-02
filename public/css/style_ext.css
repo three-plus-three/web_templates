@@ -222,3 +222,11 @@ body.fixed-sidebar.mini-navbar .sidebar-collapse {
 navbar.navbar-static-top .navbar-top-links:nth-child(2) {
     margin-right: 10px;
 }
+
+
+.quick-bar-search-input {
+  box-sizing: content-box;  
+  padding: 7px 5px; 
+  border: 1px solid #e7eaec;
+  border-left-width: 0;
+}
