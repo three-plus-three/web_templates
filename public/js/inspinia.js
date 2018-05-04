@@ -147,12 +147,15 @@ $(document).ready(function () {
 
     // Fixed Sidebar
     $(window).bind("load", function () {
-        if ($("body").hasClass('fixed-sidebar')) {
-            $('.sidebar-collapse').slimScroll({
-                height: '100%',
-                railOpacity: 0.9
-            });
-        }
+      if ($("body").hasClass('fixed-sidebar') && !$(".fixed-sidebar").hasClass("mini-navbar")) {
+        $('.sidebar-collapse').slimScroll({
+          height: '100%',
+          railOpacity: 0.9
+        });
+
+        $(".sidebar-collapse").focus();
+        $(".sidebar-collapse").trigger("mouseover");
+      }
     });
 
     // Move right sidebar top after scroll
