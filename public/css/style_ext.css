@@ -104,6 +104,7 @@ body.fixed-sidebar.mini-navbar .footer {
     left:0;
     right:0;
     padding: 6px 8px 8px 8px;
+    overflow: auto;
 }
 
 .full-height.content {
