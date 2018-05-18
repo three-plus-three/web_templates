@@ -6,7 +6,7 @@
     <ul class="nav navbar-top-links navbar-right">
       <li>
         <a href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
-            <i class="fa fa-user"></i>{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}欢迎您！{{end}}
+            <i class="fa fa-user"></i>{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}{{if .currnetUsername}}{{.currnetUsername}}{{else}}欢迎您！{{end}}{{end}}
         </a>
       </li>
       <li>
