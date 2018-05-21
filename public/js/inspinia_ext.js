@@ -130,10 +130,14 @@ $(function(){
 
   $('#side-menu').bind("fadeInComplete", function() {
     if($("body").hasClass("mini-navbar")) {
-      App.setData("as-sidebar-visible", "false");
+      if(typeof App !== "undefined") {
+        App.setData("as-sidebar-visible", "false");
+      }
     } else {
       $(".nav-second-level, .nav-third-level").css("top", "");
-      App.setData("as-sidebar-visible", "true");
+      if(typeof App !== "undefined") {
+        App.setData("as-sidebar-visible", "true");
+      }
     }
   });
 })
