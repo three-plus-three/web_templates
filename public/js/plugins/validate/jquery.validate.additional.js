@@ -55,3 +55,8 @@ jQuery.validator.addMethod("specialChar", function(value, element) {
   var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）;—|{}【】‘；：”“'。，、？]");
   return this.optional(element) || !reg.test(value);
 }, "含有中英文特殊字符");
+
+jQuery.validator.addMethod("zh_date", function(value, element) {
+  var reg = new RegExp("\d\d\d\d-\d\d-\d\d");
+  return this.optional(element) || !reg.test(value);
+}, "请输入yyyy-MM-dd格式的日期");
