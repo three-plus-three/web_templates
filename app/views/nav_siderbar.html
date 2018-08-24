@@ -15,49 +15,36 @@
         {{- if eq $menu.Title "divider"}}
           <li class="divider"></li>
         {{- else if current_user_has_menu $ $menu }}
-          {{if eq $menu.UID "app.products" }}
-            {{if gt (len $menu.Children) 1}}
-              <li id="backEntry" class="landing_link">
-                <a><i class="fa fa-mail-reply"></i> <span class="nav-label">返回</span></a>
-              </li>
-              {{range $appMenu := $menu.Children}}
-                <li uid="{{$appMenu.UID}}" class="app-menu {{$appMenu.Classes}}" style="display: none;">
-                  <a href="{{$appMenu.URL}}">{{if $appMenu.Icon}}<i class="fa {{$appMenu.Icon}}"></i> {{end}}<span class="nav-label">{{$appMenu.Title}}</span></a>
-                </li>
-              {{end}}
-            {{end}}
-          {{else}}
-            <li uid="{{$menu.UID}}" class="func-menu {{$menu.Classes}} {{if $menu.IsActiveWith $ }}active{{end}}">
-              <a href="{{$menu.URL}}">{{if $menu.Icon}}<i class="fa {{$menu.Icon}}"></i> {{end}}<span class="nav-label">{{$menu.Title}}</span>{{if $menu.Children}}<span class="fa arrow"></span>{{end}}</a>
-              {{- if $menu.Children -}}
-                <ul class="nav nav-second-level collapse">
-                  {{- range $second_menu := $menu.Children}}
-                    {{- if eq $second_menu.Title "divider"}}
+      <li class="{{$menu.Classes}} {{if $menu.IsActiveWith $ }}active{{end}}">
+        <a href="{{$menu.URL}}">{{if $menu.Icon}}<i class="fa {{$menu.Icon}}"></i> {{end}}<span class="nav-label">{{$menu.Title}}</span>{{if $menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+        {{- if $menu.Children -}}
+          <ul class="nav nav-second-level collapse">
+            {{- range $second_menu := $menu.Children}}
+              {{- if eq $second_menu.Title "divider"}}
+              <li class="divider"></li>
+              {{- else if current_user_has_menu $ $second_menu }}
+              <li class="{{$menu.Classes}} {{if $second_menu.IsActiveWith $ }}active{{end}}">
+                <a href="{{$second_menu.URL}}"><i class="fa {{$second_menu.Icon}}"></i> <span class="nav-label">{{$second_menu.Title}}</span>{{if $second_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+                {{- if $second_menu.Children}}
+                  <ul class="nav nav-third-level collapse">
+                    {{range $third_menu := $second_menu.Children -}}
+                      {{- if eq $third_menu.Title "divider"}}
                     <li class="divider"></li>
-                    {{- else if current_user_has_menu $ $second_menu }}
-                    <li class="{{$menu.Classes}} {{if $second_menu.IsActiveWith $ }}active{{end}}">
-                      <a href="{{$second_menu.URL}}"><i class="fa {{$second_menu.Icon}}"></i> <span class="nav-label">{{$second_menu.Title}}</span>{{if $second_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
-                      {{- if $second_menu.Children}}
-                        <ul class="nav nav-third-level collapse">
-                          {{range $third_menu := $second_menu.Children -}}
-                            {{- if eq $third_menu.Title "divider"}}
-                          <li class="divider"></li>
-                            {{- else if current_user_has_menu $ $third_menu }}
-                          <li class="{{$menu.Classes}} {{if $third_menu.IsActiveWith $ }}active{{end}}">
-                            <a href="{{$third_menu.URL}}"><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
-                          </li>
-                              {{- if $third_menu.Children}}{{$third_menu.Fail}}{{end -}}
-                            {{- end}}
-                          {{- end}}
-                        </ul>
-                      {{- end}}
+                      {{- else if current_user_has_menu $ $third_menu }}
+                    <li class="{{$menu.Classes}} {{if $third_menu.IsActiveWith $ }}active{{end}}">
+                      <a href="{{$third_menu.URL}}"><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
                     </li>
+                        {{- if $third_menu.Children}}{{$third_menu.Fail}}{{end -}}
+                      {{- end}}
                     {{- end}}
-                  {{- end}}
-                </ul>
+                  </ul>
+                {{- end}}
+              </li>
               {{- end}}
-            </li>
-          {{end}}
+            {{- end}}
+          </ul>
+        {{- end}}
+      </li>
         {{- end}}
       {{- end}}
 
@@ -65,14 +52,3 @@
 
   </div>
 </nav>
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function(){
-    $(function(){
-      $("#backEntry").click(function(){
-        $("li.func-menu").hide();
-        $("li.app-menu").show();
-        $(this).hide();
-      })
-    })
-  });
-</script>
