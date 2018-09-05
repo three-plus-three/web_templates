@@ -241,7 +241,7 @@ navbar.navbar-static-top .navbar-top-links:nth-child(2) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-#side-menu .nav > li > a {
+#side-menu > li > a, #side-menu .nav > li > a {
     font-weight: 300;
     font-size: 14px;
 }
