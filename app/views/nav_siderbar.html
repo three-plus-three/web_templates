@@ -21,9 +21,13 @@
                 <a><i class="fa fa-mail-reply"></i> <span class="nav-label">返回</span></a>
               </li>
               {{range $appMenu := $menu.Children}}
+                {{- if eq $appMenu.Title "divider"}}
+                <li class="divider"></li>
+                {{- else if current_user_has_menu $ $appMenu }}
                 <li uid="{{$appMenu.UID}}" class="app-menu {{$appMenu.Classes}}" style="display: none;">
                   <a href="{{$appMenu.URL}}">{{if $appMenu.Icon}}<i class="fa {{$appMenu.Icon}}"></i> {{end}}<span class="nav-label">{{$appMenu.Title}}</span></a>
                 </li>
+                {{- end}}
               {{end}}
             {{end}}
           {{else}}
