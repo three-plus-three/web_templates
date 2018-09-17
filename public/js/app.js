@@ -195,13 +195,15 @@
             });
           }
 
-          $el.one('hide.bs.modal', function () {
-            $el.undelegate("#btnOk", "click");
-            
-            if(typeof options.destroyCallback != "undefined") {
-              options.destroyCallback.call(this, $el);
+          $el.one('hide.bs.modal', function (event) {
+            if(event.type != "hide") {
+              $el.undelegate("#btnOk", "click");
+
+              if(typeof options.destroyCallback != "undefined") {
+                options.destroyCallback.call(this, $el);
+              }
+              $el.remove();
             }
-            $el.remove();
           });
 
         }, error: function(error) {
