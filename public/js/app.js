@@ -196,7 +196,7 @@
           }
 
           $el.one('hide.bs.modal', function (event) {
-            if(event.type != "hide") {
+            if(typeof event.dates == 'undefined') {
               $el.undelegate("#btnOk", "click");
 
               if(typeof options.destroyCallback != "undefined") {
