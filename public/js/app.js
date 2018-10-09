@@ -142,7 +142,15 @@
             var jsonData = JSON.stringify(jsonObject);
 
             if(typeof callback == "function") {
-              callback({form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+              callback({innerForm: innerForm,
+                form: formData,
+                array: dataArray,
+                json: jsonData,
+                jsonObject: jsonObject,
+                close: function() {
+                  $(selector).find("[data-dismiss='modal']").click();
+                }
+              });
             }
 
             if(typeof options.autoClose == "undefined" || options.autoClose) {
