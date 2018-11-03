@@ -100,16 +100,16 @@
       bootbox.confirm(msg, callback);
     },
     success : function(msg) {
-      toastr.success(msg);
+      bootbox.alert(msg);
     },
     info : function(msg) {
-      toastr.info(msg);
+      bootbox.alert(msg);
     },
     warn : function(msg) {
-      toastr.warning(msg);
+      bootbox.alert(msg);
     },
     error : function(msg) {
-      toastr.error(msg);
+      bootbox.alert(msg);
     }
   };
 
