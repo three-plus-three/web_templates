@@ -24,4 +24,128 @@
   {{- else}}
     {{checkbox_field . $fieldName $fieldLabel | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render}}
   {{- end}}
+{{- else if eq (print  (index .field.Annotations "input_type")) "custom"}}
+  {{$dataFields := classFields (int64 (index .field.Annotations "dataType"))}}
+  {{$dataArray := toMapArray (print .value)}}
+  {{template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel }}
+    <table class="table table-bordered" data-index="{{len $dataArray}}" id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
+      <thead>
+        <tr>
+          {{range $dataFields}}
+            <th>{{.Label}}</th>
+          {{end}}
+          <th style="width:120px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range $dataArray}}
+          {{$dataRow := .}}
+            <tr>
+              {{range $dataFields}}
+                <td>
+                  <input type="hidden" disabled field-name="{{.Name}}" value="{{index $dataRow .Name}}" />
+                  <span class="field-text">{{index $dataRow .Name}}</span>
+                </td>
+              {{end}}
+                <td>
+                  <i class="fa fa-edit btn-edit-row"></i>
+                  <i class="fa fa-trash btn-remove-row"></i>
+                </td>
+            </tr>
+        {{end}}
+      </tbody>
+    </table>
+    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if .value}}{{print .value}}{{end}}" />
+    <table id="custom-input-table-tpl-{{.field.ID}}" style="display: none;">
+      <tbody>
+        <tr>
+          {{range $dataFields}}
+            <td>
+              <input type="hidden" disabled field-name="{{.Name}}" />
+              <span class="field-text"></span>
+            </td>
+          {{end}}
+          <td>
+            <i class="fa fa-edit btn-edit-row"></i>
+            <i class="fa fa-trash btn-remove-row"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    {{template "share/modal_header.html" args | arg "title" "添加记录" | arg "id" (printf "custom-input-modal-%v" .field.ID)}}
+        {{range $dataFields}}
+          {{template "share/field_input.html" args | arg "field" .}}
+        {{end}}
+    {{template "share/modal_footer_for_edit.html" .}}
+
+    <a class="btn btn-default" id="btnAdd{{.field.ID}}"><i class="fa fa-plus"></i></a>
+    <script type="text/javascript">
+      $(function(){
+        $("#custom-input-table-{{.field.ID}}").delegate(".btn-remove-row", "click", function(){
+          var $row = $(this).parents("tr:first");
+          bootbox.confirm("确定删除该记录？", function (result) {
+            if(result) {
+              $row.remove();
+            }
+          });
+        });
+
+        $("#custom-input-table-{{.field.ID}}").delegate(".btn-edit-row", "click", function(){
+          var $row = $(this).parents("tr:first");
+          var nowData = {};
+          $row.find("input").each(function(){
+            nowData[$(this).attr("field-name")] = $(this).val();
+          });
+
+          Modal.show("#custom-input-modal-{{.field.ID}}", function(result){
+            $row.find("input:hidden").each(function(){
+              var fieldName = $(this).attr("field-name");
+              var fieldValue = result.jsonObject[fieldName];
+              var fieldLabel = result.valueLabels[fieldValue];
+
+              $(this).val(fieldValue);
+              $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
+            });
+
+          }, {data:nowData});
+        });
+
+        $("#btnAdd{{.field.ID}}").click(function(){
+          Modal.show("#custom-input-modal-{{.field.ID}}", function(result){
+            var dataIndex = parseInt($("#custom-input-table-{{.field.ID}}").attr("data-index"));
+            $("#custom-input-table-{{.field.ID}}").attr("data-index", dataIndex + 1);
+
+            var $tr = $("#custom-input-table-tpl-{{.field.ID}} tbody tr").clone();
+
+            $tr.find("input:hidden").each(function(){
+              var fieldName = $(this).attr("field-name");
+              var fieldValue = result.jsonObject[fieldName];
+              var fieldLabel = result.valueLabels[fieldValue];
+
+              $(this).val(fieldValue);
+              $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
+            });
+
+            $("#custom-input-table-{{.field.ID}} tbody").append($tr);
+          });
+        });
+
+        $("#custom-input-field-{{.field.ID}}").parents("form:first").submit(function(){
+          var dataArray = [];
+          $("#custom-input-table-{{.field.ID}} tbody tr").each(function(){
+            var dataObj = {};
+            dataArray.push(dataObj);
+            $(this).find("input:hidden").each(function(){
+              var fieldName = $(this).attr("field-name");
+              var fieldValue = $(this).val();
+              dataObj[fieldName] = fieldValue;
+            });
+          });
+
+          debugger
+          $("#custom-input-field-{{.field.ID}}").val(JSON.stringify(dataArray));
+        });
+      })
+    </script>
+  {{template "share/form/wrap_field_footer.html" args}}
 {{- end}}

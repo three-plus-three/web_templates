@@ -123,7 +123,7 @@
       }
 
       if(typeof options.data !== 'undefined') {
-        this._fillForm(innerForm, options.data)
+        this._fillForm($(selector), options.data)
       }
 
       $(selector).undelegate("#btnOk", "submit");
@@ -135,18 +135,32 @@
         });
       } else {
         $(selector).delegate("#btnOk", "click", function() {
-          if(innerForm.valid()) {
-            var formData = innerForm.serialize();
-            var dataArray = innerForm.serializeArray();
+          if(innerForm.length <= 0 || innerForm.valid()) {
+            var temForm = innerForm;
+            if(innerForm.length <= 0) {
+              temForm = $("<form></form>").append($(selector).find(".modal-body").clone());
+            }
+
+            var labels = {};
+            temForm.find("select").each(function(){
+              var $option = $(this).find("option:selected");
+              if($option.length === 1) {
+                labels[$option.val()] = $option.text();
+              }
+            });
+
+            var formData = temForm.serialize();
+            var dataArray = temForm.serializeArray();
             var jsonObject = App.serializeObject(dataArray);
             var jsonData = JSON.stringify(jsonObject);
 
             if(typeof callback == "function") {
-              callback({innerForm: innerForm,
+              callback({innerForm: temForm,
                 form: formData,
                 array: dataArray,
                 json: jsonData,
                 jsonObject: jsonObject,
+                valueLabels: labels,
                 close: function() {
                   $(selector).find("[data-dismiss='modal']").click();
                 }
@@ -219,14 +233,14 @@
         }
       })
     },
-    _fillForm: function(form, data) {
+    _fillForm: function(wrapper, data) {
       for(var key in data) {
         var selector = "[name='" + key + "']";
 
         if(typeof data[key] === "boolean") {
-          form.find(selector).prop("checked", data[key]);
+          wrapper.find(selector).prop("checked", data[key]);
         } else {
-          form.find(selector).val(data[key]);
+          wrapper.find(selector).val(data[key]);
         }
       }
     },
