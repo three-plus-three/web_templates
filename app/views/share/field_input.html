@@ -41,6 +41,9 @@
 {{- else if eq (print  (index .field.Annotations "input_type")) "multiline" -}}
   {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
   {{- $dataArray := .formatValue}}
+  {{if eq (typeOf .formatValue) "string"}}
+    {{- $dataArray := (toMapArray .formatValue)}}
+  {{end}}
   {{- template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel -}}
     <table class="table table-bordered" {{if $dataArray}}data-index="{{len $dataArray}}"{{else}}data-index="0"{{end}} id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
       <thead>
