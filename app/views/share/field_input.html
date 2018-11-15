@@ -5,53 +5,66 @@
 {{- $inputTheme := (default .inputTheme "bootstrap3" ) }}
 {{- $disabled := (default .disabled "" )}}
 
-{{- if eq (print  (index .field.Annotations "input_type")) "text"}}
-  {{text_field . $fieldName (concat $fieldLabel ":") | f_addTag $disabled | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render}}
-{{- else if  eq (print  (index .field.Annotations "input_type")) "area"}}
-  {{textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_addTag $disabled | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render}}
-{{- else if eq (print  (index .field.Annotations "input_type")) "select"}}
-  {{- if .field.HasChoices}}
-    {{- if .field.IsArray}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled| f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default .value  `[]` )| f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render}}
+{{if (index .field.Annotations "template")}}
+  {{- set . "formatValue" (parseTpl (index .field.Annotations "template") .) -}}
+{{else}}
+  {{- set . "formatValue" .value -}}
+{{end}}
+
+{{- if .errors -}}
+  {{- with $field := field .field.Name . -}}
+    {{if $field.Error}}
+      {{- set $ "fieldError" (toStringSlice $field.Error) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq (print  (index .field.Annotations "input_type")) "text" -}}
+  {{- text_field . $fieldName (concat $fieldLabel ":") | f_addTag $disabled | f_setValue .formatValue | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+{{- else if  eq (print  (index .field.Annotations "input_type")) "area" -}}
+  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_addTag $disabled | f_setValue .formatValue | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+{{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
+  {{- if .field.HasChoices -}}
+    {{- if .field.IsArray -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled| f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default .formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled| f_setValue .value| f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled| f_setValue .formatValue| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- end}}
   {{- else}}
-    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_addTag $disabled | f_setValue .value | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render}}
+    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_addTag $disabled | f_setValue .formatValue | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
-  {{- if eq (toString .value) "true"}}
-    {{checkbox_field . $fieldName  $fieldLabel | f_addTag $disabled | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render}}
+  {{- if eq (toString .formatValue) "true"}}
+    {{checkbox_field . $fieldName  $fieldLabel | f_addTag $disabled | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
   {{- else}}
-    {{checkbox_field . $fieldName $fieldLabel | f_addTag $disabled | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render}}
+    {{checkbox_field . $fieldName $fieldLabel | f_addTag $disabled | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
   {{- end}}
-{{- else if eq (print  (index .field.Annotations "input_type")) "multiline"}}
-  {{$dataFields := classFields (int64 (index .field.Annotations "metaClassId"))}}
-  {{$dataArray := .value}}
-  {{template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel }}
+{{- else if eq (print  (index .field.Annotations "input_type")) "multiline" -}}
+  {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
+  {{- $dataArray := .formatValue}}
+  {{- template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel -}}
     <table class="table table-bordered" {{if $dataArray}}data-index="{{len $dataArray}}"{{else}}data-index="0"{{end}} id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
       <thead>
         <tr>
-          {{range $dataFields}}
-            <th>{{.Label}}</th>
+          {{- range $dataFields -}}
+            <th>{{- .Label -}}</th>
           {{end}}
-          {{if ne $disabled "disabled"}}
+          {{- if ne $disabled "disabled" -}}
             <th style="width:120px;">操作</th>
-          {{end}}
+          {{- end -}}
         </tr>
       </thead>
       <tbody>
-        {{if $dataArray}}
-          {{range $dataArray}}
-            {{$dataRow := .}}
+        {{- if $dataArray -}}
+          {{- range $dataArray -}}
+            {{- $dataRow := . -}}
               <tr>
-                {{range $dataFields}}
+                {{- range $dataFields -}}
                   <td>
                     <input type="hidden" disabled field-name="{{.Name}}" value="{{index $dataRow .Name}}" />
                     <span class="field-text">{{index $dataRow .Name}}</span>
                   </td>
-                {{end}}
-                {{if ne $disabled "disabled"}}
+                {{- end -}}
+                {{- if ne $disabled "disabled" -}}
                   <td>
                     <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
                     <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
@@ -62,34 +75,34 @@
         {{end}}
       </tbody>
     </table>
-    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if .value}}{{print .value}}{{end}}" />
+    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if .formatValue}}{{print .formatValue}}{{end}}" />
     <table id="custom-input-table-tpl-{{.field.ID}}" style="display: none;">
       <tbody>
         <tr>
-          {{range $dataFields}}
+          {{- range $dataFields -}}
             <td>
               <input type="hidden" disabled field-name="{{.Name}}" />
               <span class="field-text"></span>
             </td>
-          {{end}}
-          {{if ne $disabled "disabled"}}
+          {{- end -}}
+          {{- if ne $disabled "disabled" -}}
             <td>
               <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
               <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
             </td>
-          {{end}}
+          {{- end -}}
         </tr>
       </tbody>
     </table>
-    {{template "share/modal_header.html" args | arg "title" "添加记录" | arg "id" (printf "custom-input-modal-%v" .field.ID)}}
+    {{- template "share/modal_header.html" args | arg "title" "添加记录" | arg "id" (printf "custom-input-modal-%v" .field.ID) -}}
         {{range $dataFields}}
           {{template "share/field_input.html" args | arg "field" .}}
         {{end}}
-    {{template "share/modal_footer_for_edit.html" .}}
+    {{- template "share/modal_footer_for_edit.html" . -}}
 
-    {{if not $disabled}}
+    {{- if not $disabled -}}
       <a class="btn btn-default field-edit-trigger" id="btnAdd{{.field.ID}}"><i class="fa fa-plus"></i></a>
-    {{end}}
+    {{- end -}}
     <script type="text/javascript">
       $(function(){
         $("#custom-input-table-{{.field.ID}}").delegate(".btn-remove-row", "click", function(){
@@ -112,7 +125,7 @@
             $row.find("input:hidden").each(function(){
               var fieldName = $(this).attr("field-name");
               var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.valueLabels[fieldValue];
+              var fieldLabel = result.formatValueLabels[fieldValue];
 
               $(this).val(fieldValue);
               $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
@@ -131,7 +144,7 @@
             $tr.find("input:hidden").each(function(){
               var fieldName = $(this).attr("field-name");
               var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.valueLabels[fieldValue];
+              var fieldLabel = result.formatValueLabels[fieldValue];
 
               $(this).val(fieldValue);
               $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
@@ -157,5 +170,6 @@
         });
       })
     </script>
-  {{template "share/form/wrap_field_footer.html" args}}
-{{- end}}
+  {{- template "share/form/wrap_field_footer.html" args -}}
+{{- end -}}
+
