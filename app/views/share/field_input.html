@@ -128,7 +128,7 @@
             $row.find("input:hidden").each(function(){
               var fieldName = $(this).attr("field-name");
               var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.formatValueLabels[fieldValue];
+              var fieldLabel = result.valueLabels[fieldValue];
 
               $(this).val(fieldValue);
               $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
@@ -153,7 +153,7 @@
             $tr.find("input:hidden").each(function(){
               var fieldName = $(this).attr("field-name");
               var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.formatValueLabels[fieldValue];
+              var fieldLabel = result.valueLabels[fieldValue];
 
               $(this).val(fieldValue);
               $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
