@@ -19,18 +19,18 @@
   {{- end -}}
 {{- end -}}
 {{- if eq (print  (index .field.Annotations "input_type")) "text" -}}
-  {{- text_field . $fieldName (concat $fieldLabel ":") | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (strval .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- text_field . $fieldName (concat $fieldLabel ":") | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if  eq (print  (index .field.Annotations "input_type")) "area" -}}
-  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (strval .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
   {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
       {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default .formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (strval .formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- end}}
   {{- else}}
-    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (strval .formatValue) | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
   {{- if eq (toString .formatValue) "true"}}
