@@ -5,16 +5,26 @@
 {{- $inputTheme := (default .inputTheme "bootstrap3" ) }}
 
 {{$context := (dict "formatValue" .value)}}
-{{if empty .value}}
-  {{set $context "formatValue" (indexValue $ $fieldName)}}
-{{end}}
 
-{{if empty (index $context "formatValue")}}
-  {{if (index .field.Annotations "template")}}
+{{- if eq (print  (index .field.Annotations "input_type")) "select" -}}
+  {{- if eq (index .field.Annotations "query_from_db") true -}}
+    {{set $context "choices" (dbChoices (index .field.Annotations "enumerationSource"))}}
+  {{- else -}}
+    {{- set $context "choices" .field.ToChoices -}}
+  {{- end -}}
+{{- end -}}
+{{$fieldChoices := $context.choices}}
+
+{{- if empty .value -}}
+  {{- set $context "formatValue" (indexValue $ $fieldName) -}}
+{{- end -}}
+
+{{- if empty (index $context "formatValue") -}}
+  {{- if (index .field.Annotations "template") -}}
     {{- set $context "formatValue" (parseTpl (index .field.Annotations "template") .) -}}
-  {{end}}
-{{end}}
-{{$formatValue := (index $context "formatValue")}}
+  {{- end -}}
+{{- end -}}
+{{- $formatValue := (index $context "formatValue") -}}
 
 {{- if .errors -}}
   {{- with $field := field .field.Name . -}}
@@ -30,9 +40,9 @@
 {{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
   {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- end}}
   {{- else}}
     {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
