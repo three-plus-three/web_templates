@@ -3,13 +3,18 @@
 {{- $fieldName := (default .fieldName .field.Name )}}
 {{- $fieldLabel := (default .fieldLabel (default .field.Label .field.Name)) }}
 {{- $inputTheme := (default .inputTheme "bootstrap3" ) }}
-{{- $disabled := (default .disabled "" )}}
 
-{{if (index .field.Annotations "template")}}
-  {{- set . "formatValue" (parseTpl (index .field.Annotations "template") .) -}}
-{{else}}
-  {{- set . "formatValue" .value -}}
+{{$context := (dict "formatValue" .value)}}
+{{if empty .value}}
+  {{set $context "formatValue" (indexValue $ $fieldName)}}
 {{end}}
+
+{{if empty (index $context "formatValue")}}
+  {{if (index .field.Annotations "template")}}
+    {{- set $context "formatValue" (parseTpl (index .field.Annotations "template") .) -}}
+  {{end}}
+{{end}}
+{{$formatValue := (index $context "formatValue")}}
 
 {{- if .errors -}}
   {{- with $field := field .field.Name . -}}
@@ -19,31 +24,32 @@
   {{- end -}}
 {{- end -}}
 {{- if eq (print  (index .field.Annotations "input_type")) "text" -}}
-  {{- text_field . $fieldName (concat $fieldLabel ":") | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- text_field . $fieldName (concat $fieldLabel ":") | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if  eq (print  (index .field.Annotations "input_type")) "area" -}}
-  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
   {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default .formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "errors" .fieldError | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( .field.ToChoices ) | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- end}}
   {{- else}}
-    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_addTag $disabled | f_setValue .formatValue  | f_addParams "default-value" (toString .formatValue) | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
-  {{- if eq (toString .formatValue) "true"}}
-    {{checkbox_field . $fieldName  $fieldLabel | f_addTag $disabled | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- if eq (toString $formatValue) "true"}}
+    {{checkbox_field . $fieldName  $fieldLabel | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
   {{- else}}
-    {{checkbox_field . $fieldName $fieldLabel | f_addTag $disabled | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+    {{checkbox_field . $fieldName $fieldLabel | f_addData "labelWidth" $labelWidth | f_addData "errors" .fieldError | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "multiline" -}}
   {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
-  {{- $dataArray := .formatValue}}
-  {{if eq (typeOf .formatValue) "string"}}
-    {{- $dataArray := (toMapArray .formatValue)}}
+  {{- set $context "dataArray" $formatValue}}
+  {{if eq (typeOf $formatValue) "string"}}
+    {{- set $context "dataArray" (toMapArray $formatValue)}}
   {{end}}
+  {{$dataArray := (index $context "dataArray")}}
   {{- template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel -}}
     <table class="table table-bordered" {{if $dataArray}}data-index="{{len $dataArray}}"{{else}}data-index="0"{{end}} id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
       <thead>
@@ -51,7 +57,7 @@
           {{- range $dataFields -}}
             <th>{{- .Label -}}</th>
           {{end}}
-          {{- if ne $disabled "disabled" -}}
+          {{- if ne (print $.form_mode) "readonly" -}}
             <th style="width:120px;">操作</th>
           {{- end -}}
         </tr>
@@ -67,7 +73,7 @@
                     <span class="field-text">{{index $dataRow .Name}}</span>
                   </td>
                 {{- end -}}
-                {{- if ne $disabled "disabled" -}}
+                {{- if ne (print $.form_mode) "readonly" -}}
                   <td>
                     <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
                     <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
@@ -78,7 +84,7 @@
         {{end}}
       </tbody>
     </table>
-    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if .formatValue}}{{print .formatValue}}{{end}}" />
+    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if $formatValue}}{{print $formatValue}}{{end}}" />
     <table id="custom-input-table-tpl-{{.field.ID}}" style="display: none;">
       <tbody>
         <tr>
@@ -88,7 +94,7 @@
               <span class="field-text"></span>
             </td>
           {{- end -}}
-          {{- if ne $disabled "disabled" -}}
+          {{- if ne (print $.form_mode) "readonly" -}}
             <td>
               <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
               <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
@@ -103,7 +109,7 @@
         {{end}}
     {{- template "share/modal_footer_for_edit.html" . -}}
 
-    {{- if not $disabled -}}
+    {{- if ne (print $.form_mode) "readonly" -}}
       <a class="btn btn-default field-edit-trigger" id="btnAdd{{.field.ID}}"><i class="fa fa-plus"></i></a>
     {{- end -}}
     <script type="text/javascript">
