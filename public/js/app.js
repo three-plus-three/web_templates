@@ -342,6 +342,19 @@ $(function(){
   });
 })
 
+$(function(){
+  try {
+    $.mockjax({
+      url: '/post',
+      response: function () {
+        //
+      }
+    });
+  } catch(e) {
+    console.log(e)
+  };
+})
+
 if(typeof $.jgrid != "undefined") {
   $.jgrid.defaults.responsive = true;
   $.jgrid.defaults.styleUI = 'Bootstrap';
