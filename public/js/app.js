@@ -275,6 +275,19 @@
       }
     }
   };
+
+  window.FormUtils = {
+    disabledInputs: function($form){
+      $form.find('select,input,textarea').attr("readonly","readonly");
+      $form.find('select[multiple]').prop("disabled", true);
+      $form.find('select[multiple]').trigger("chosen:updated");
+    },
+    enabledInputs: function($form){
+      $form.find('select,input,textarea').removeAttr("readonly");
+      $form.find('select[multiple]').remove("disabled");
+      $form.find('select[multiple]').trigger("chosen:updated");
+    }
+  }
 })(jQuery);
 
 (function ($) {

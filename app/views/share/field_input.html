@@ -27,25 +27,21 @@
 {{- $formatValue := (index $context "formatValue") -}}
 
 {{- if eq (print  (index .field.Annotations "input_type")) "text" -}}
-  {{- text_field . $fieldName (concat $fieldLabel ":") | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- text_field . $fieldName (concat $fieldLabel ":") | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if  eq (print  (index .field.Annotations "input_type")) "area" -}}
-  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
+  {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
   {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
-      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+      {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- end}}
   {{- else}}
-    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
+    {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
   {{- end}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
-  {{- if eq (toString $formatValue) "true"}}
-    {{checkbox_field . $fieldName  $fieldLabel | f_addTag "checked" | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-  {{- else}}
-    {{checkbox_field . $fieldName $fieldLabel | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-  {{- end}}
+    {{checkbox_field . $fieldName  $fieldLabel | f_setValue $formatValue | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
 {{- else if eq (print  (index .field.Annotations "input_type")) "multiline" -}}
   {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
   {{- set $context "dataArray" $formatValue}}
@@ -60,7 +56,7 @@
           {{- range $dataFields -}}
             <th>{{- .Label -}}</th>
           {{end}}
-          {{- if ne (print $.form_mode) "readonly" -}}
+          {{- if ne (print $.form_mode) "view" -}}
             <th style="width:120px;">操作</th>
           {{- end -}}
         </tr>
@@ -76,7 +72,7 @@
                     <span class="field-text">{{index $dataRow .Name}}</span>
                   </td>
                 {{- end -}}
-                {{- if ne (print $.form_mode) "readonly" -}}
+                {{- if ne (print $.form_mode) "view" -}}
                   <td>
                     <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
                     <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
@@ -97,7 +93,7 @@
               <span class="field-text"></span>
             </td>
           {{- end -}}
-          {{- if ne (print $.form_mode) "readonly" -}}
+          {{- if ne (print $.form_mode) "view" -}}
             <td>
               <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
               <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
@@ -112,7 +108,7 @@
         {{end}}
     {{- template "share/modal_footer_for_edit.html" . -}}
 
-    {{- if ne (print $.form_mode) "readonly" -}}
+    {{- if ne (print $.form_mode) "view" -}}
       <a class="btn btn-default field-edit-trigger" id="btnAdd{{.field.ID}}"><i class="fa fa-plus"></i></a>
     {{- end -}}
     <script type="text/javascript">

@@ -250,3 +250,12 @@ navbar.navbar-static-top .navbar-top-links:nth-child(2) {
     top:auto;
     bottom:35px;
 }
+
+.form-control-static {
+    background-color: #eeecec;
+    text-indent: 5px;
+}
+
+select[readonly=readonly] {
+    pointer-events:none;
+}
