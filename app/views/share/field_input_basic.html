@@ -1,15 +1,11 @@
-{{- $labelWidth := default .labelWidth "3"}}
-{{- $controlWidth := default .controlWidth "9"}}
+
 {{- $fieldName := default .fieldName .field.Name}}
 {{- $fieldLabel := default .fieldLabel (default .field.Label .field.Name)}}
-{{- $inputTheme := default .inputTheme "bootstrap3"}}
-{{- $context := dict "formatValue" .value}}
-
+{{- $context := dict}}
 
   {{/* ####################################################################  */}}
-  {{/* 这部分应该由一个方法来实现 */}}
-  {{/* 1. 在 FieldSpec 上实现一个 Input 方法， 它返回 forms.Field */}}
-  {{/* 2. 或在 forms 包中加一个接受 FieldSpec 为参数且返回 forms.Field 的方法 */}}
+  {{/* 这部分应该由一个方法来实现，在 web_ext 中有一个 newfield 实现了相同的功能， */}}
+  {{/* 此处是为了不相引用 web_ext 的项目保留的 */}}
 
   {{- if .field.HasChoices }}
     {{- $fieldChoices := .field.ToChoices -}}
@@ -64,20 +60,9 @@
   {{- else}}
     {{- set $context "field_input" (text_field . $fieldName (concat $fieldLabel ":"))}}
   {{- end}}
-  
+
   {{/* ####################################################################  */}}
 
+  {{- $formatValue := default .value (indexValue $ $fieldName) -}}
 
-{{- if empty .value -}}
-  {{- set $context "formatValue" (indexValue $ $fieldName) -}}
-{{- end -}}
-
-{{- if empty  $context.formatValue -}}
-  {{- if .field.Annotations.template -}}
-    {{- set $context "formatValue" (parseTpl .field.Annotations.template .) -}}
-  {{- end -}}
-{{- end -}}
-
-{{- $formatValue := $context.formatValue -}}
-
-{{- f_setValue $formatValue $context.field_input | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "controlWidth" $controlWidth  | render $inputTheme }}
+  {{- f_setValue $formatValue $field | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" (default .labelWidth "3") | f_addData "controlWidth" (default .controlWidth "9") | f_addData "unmodifiable" .field.IsUnmodifiable | f_addClass ( .field.CSSClasses ) | render (default .inputTheme "bootstrap3") }}
