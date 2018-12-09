@@ -3,10 +3,11 @@
 {{- $fieldName := (default .fieldName .field.Name )}}
 {{- $fieldLabel := (default .fieldLabel (default .field.Label .field.Name)) }}
 {{- $inputTheme := (default .inputTheme "bootstrap3" ) }}
+{{- $inputType := print  (index .field.Annotations "input_type")}}
+{{- $context := (dict "formatValue" .value)}}
 
-{{$context := (dict "formatValue" .value)}}
-
-{{- if eq (print  (index .field.Annotations "input_type")) "select" -}}
+{{- if eq $inputType "select" -}}
+  {{/* FIXME: 这里要改下，query_from_db 不应该存在，改成统一的 .field.ToChoices    */}}
   {{- if eq (index .field.Annotations "query_from_db") true -}}
     {{set $context "choices" (dbChoices (index .field.Annotations "enumerationSource"))}}
   {{- else -}}
@@ -26,11 +27,11 @@
 {{- end -}}
 {{- $formatValue := (index $context "formatValue") -}}
 
-{{- if eq (print  (index .field.Annotations "input_type")) "text" -}}
+{{- if eq $inputType "text" -}}
   {{- text_field . $fieldName (concat $fieldLabel ":") | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-{{- else if  eq (print  (index .field.Annotations "input_type")) "area" -}}
+{{- else if  eq $inputType "area" -}}
   {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-{{- else if eq (print  (index .field.Annotations "input_type")) "select" -}}
+{{- else if eq $inputType "select" -}}
   {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
       {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
@@ -40,15 +41,15 @@
   {{- else}}
     {{select_field . $fieldName (concat $fieldLabel ":") `[]` | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
   {{- end}}
-{{- else if eq (print  (index .field.Annotations "input_type")) "checkbox"}}
+{{- else if eq $inputType "checkbox"}}
     {{checkbox_field . $fieldName  $fieldLabel | f_setValue $formatValue | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-{{- else if eq (print  (index .field.Annotations "input_type")) "multiline" -}}
+{{- else if eq $inputType "multiline" -}}
   {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
   {{- set $context "dataArray" $formatValue}}
-  {{if eq (typeOf $formatValue) "string"}}
+  {{- if eq (typeOf $formatValue) "string"}}
     {{- set $context "dataArray" (toMapArray $formatValue)}}
-  {{end}}
-  {{$dataArray := (index $context "dataArray")}}
+  {{- end}}
+  {{- $dataArray := (index $context "dataArray")}}
   {{- template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel -}}
     <table class="table table-bordered" {{if $dataArray}}data-index="{{len $dataArray}}"{{else}}data-index="0"{{end}} id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
       <thead>
@@ -185,5 +186,7 @@
       })
     </script>
   {{- template "share/form/wrap_field_footer.html" args -}}
+{{- else}}
+  {{- template "share/field_input_basic.html" . -}}
 {{- end -}}
 

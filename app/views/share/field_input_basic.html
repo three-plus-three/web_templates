@@ -1,0 +1,83 @@
+{{- $labelWidth := default .labelWidth "3"}}
+{{- $controlWidth := default .controlWidth "9"}}
+{{- $fieldName := default .fieldName .field.Name}}
+{{- $fieldLabel := default .fieldLabel (default .field.Label .field.Name)}}
+{{- $inputTheme := default .inputTheme "bootstrap3"}}
+{{- $context := dict "formatValue" .value}}
+
+
+  {{/* ####################################################################  */}}
+  {{/* 这部分应该由一个方法来实现 */}}
+  {{/* 1. 在 FieldSpec 上实现一个 Input 方法， 它返回 forms.Field */}}
+  {{/* 2. 或在 forms 包中加一个接受 FieldSpec 为参数且返回 forms.Field 的方法 */}}
+
+  {{- if .field.HasChoices }}
+    {{- $fieldChoices := .field.ToChoices -}}
+    {{- set $context "field_input" (select_field . $fieldName (concat $fieldLabel ":") $fieldChoices) }}
+    {{- if .field.IsArray -}}
+      {{- set $context "field_input" (f_multiple $context.field_input) }}
+    {{- end}}
+  {{- else if .field.Format }}
+    {{- if eq .field.Format "ip" }}
+      {{- set $context "field_input" (ipaddress_field . $fieldName (concat $fieldLabel ":"))}}
+    {{- else if eq .field.Format "email" }}
+      {{- set $context "field_input" (email_field . $fieldName (concat $fieldLabel ":"))}}
+    {{- end}}
+  {{- else if eq .field.Type "string" }}
+    {{- if .field.Restrictions}}
+      {{- if or (gt .field.Restrictions.Length 500) (gt .field.Restrictions.MaxLength 500)}}
+          {{- set $context "field_input" (textarea_field . $fieldName (concat $fieldLabel ":") 3  0) }}
+      {{- else}}
+          {{- set $context "field_input" (text_field . $fieldName (concat $fieldLabel ":"))}}
+      {{- end}}
+    {{- else}}
+        {{- set $context "field_input" (text_field . $fieldName (concat $fieldLabel ":"))}}
+    {{- end}}
+  {{- else if eq .field.Type "integer" "number" "biginteger" "int" "int64" "uint" "uint64" "float" "float64" }}
+    {{- if .field.Restrictions}}
+      {{- if .field.Restrictions.MinValue}}
+        {{- if .field.Restrictions.MaxValue}}
+          {{- if eq .field.Type "float" "float64" }}
+            {{- set $context "field_input" (number_field . $fieldName (concat $fieldLabel ":"))}}
+          {{- else}}
+            {{- set $context "field_input" (range_field . $fieldName (concat $fieldLabel ":") .field.Restrictions.MinValue  .field.Restrictions.MaxValue 1)}}
+          {{- end}}
+        {{- else}}
+          {{- set $context "field_input" (number_field . $fieldName (concat $fieldLabel ":"))}}
+        {{- end}}
+      {{- else if .field.Restrictions.MaxValue}}
+        {{- set $context "field_input" (number_field . $fieldName (concat $fieldLabel ":"))}}
+      {{- end}}
+    {{- else}}
+      {{- set $context "field_input" (number_field . $fieldName (concat $fieldLabel ":"))}}
+    {{- end}}
+  {{- else if eq .field.Type "boolean" "bool" }}
+    {{- set $context "field_input" (checkbox_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- else if eq .field.Type "password" }}
+    {{- set $context "field_input" (password_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- else if eq .field.Type "time" }}
+    {{- set $context "field_input" (time_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- else if eq .field.Type "datetime" }}
+    {{- set $context "field_input" (datetime_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- else if eq .field.Type "date" }}
+    {{- set $context "field_input" (date_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- else}}
+    {{- set $context "field_input" (text_field . $fieldName (concat $fieldLabel ":"))}}
+  {{- end}}
+  
+  {{/* ####################################################################  */}}
+
+
+{{- if empty .value -}}
+  {{- set $context "formatValue" (indexValue $ $fieldName) -}}
+{{- end -}}
+
+{{- if empty  $context.formatValue -}}
+  {{- if .field.Annotations.template -}}
+    {{- set $context "formatValue" (parseTpl .field.Annotations.template .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $formatValue := $context.formatValue -}}
+
+{{- f_setValue $formatValue $context.field_input | f_addParams "default-value" (toString $formatValue)| f_addData "labelWidth" $labelWidth | f_addData "unmodifiable" .field.IsUnmodifiable | f_addData "controlWidth" $controlWidth  | render $inputTheme }}
