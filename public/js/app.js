@@ -123,7 +123,9 @@
       }
 
       if(typeof options.data !== 'undefined') {
+        $(innerForm).trigger("reset");
         this._fillForm($(selector), options.data)
+        $(innerForm).trigger("filled");
       }
 
       $(selector).undelegate("#btnOk", "submit");
