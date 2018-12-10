@@ -4,27 +4,12 @@
 {{- $fieldLabel := (default .fieldLabel (default .field.Label .field.Name)) }}
 {{- $inputTheme := (default .inputTheme "bootstrap3" ) }}
 {{- $inputType := print  (index .field.Annotations "input_type")}}
-{{- $context := (dict "formatValue" .value)}}
+{{- $context := (dict "formatValue" (default .value (indexValue $ $fieldName)))}}
 
 {{- if eq $inputType "select" -}}
-  {{/* FIXME: 这里要改下，query_from_db 不应该存在，改成统一的 .field.ToChoices    */}}
-  {{- if eq (index .field.Annotations "query_from_db") true -}}
-    {{set $context "choices" (dbChoices (index .field.Annotations "enumerationSource"))}}
-  {{- else -}}
     {{- set $context "choices" .field.ToChoices -}}
-  {{- end -}}
 {{- end -}}
-{{$fieldChoices := $context.choices}}
-
-{{- if empty .value -}}
-  {{- set $context "formatValue" (indexValue $ $fieldName) -}}
-{{- end -}}
-
-{{- if empty (index $context "formatValue") -}}
-  {{- if (index .field.Annotations "template") -}}
-    {{- set $context "formatValue" (parseTpl (index .field.Annotations "template") .) -}}
-  {{- end -}}
-{{- end -}}
+{{- $fieldChoices := $context.choices}}
 {{- $formatValue := (index $context "formatValue") -}}
 
 {{- if eq $inputType "text" -}}
@@ -43,149 +28,6 @@
   {{- end}}
 {{- else if eq $inputType "checkbox"}}
     {{checkbox_field . $fieldName  $fieldLabel | f_setValue $formatValue | f_addData "unmodifiable" .field.IsReadonly | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( .field.CSSClasses ) |f_setTheme $inputTheme | render -}}
-{{- else if eq $inputType "multiline" -}}
-  {{- $dataFields := classFields (int64 (index .field.Annotations "metaClassId")) -}}
-  {{- set $context "dataArray" $formatValue}}
-  {{- if eq (typeOf $formatValue) "string"}}
-    {{- set $context "dataArray" (toMapArray $formatValue)}}
-  {{- end}}
-  {{- $dataArray := (index $context "dataArray")}}
-  {{- template "share/form/wrap_field_header.html" args | arg "label"  $fieldLabel -}}
-    <table class="table table-bordered" {{if $dataArray}}data-index="{{len $dataArray}}"{{else}}data-index="0"{{end}} id="custom-input-table-{{.field.ID}}" style="margin-top: 10px;">
-      <thead>
-        <tr>
-          {{- range $dataFields -}}
-            <th>{{- .Label -}}</th>
-          {{end}}
-          {{- if ne (print $.form_mode) "view" -}}
-            <th style="width:120px;">操作</th>
-          {{- end -}}
-        </tr>
-      </thead>
-      <tbody>
-        {{- if $dataArray -}}
-          {{- range $dataArray -}}
-            {{- $dataRow := . -}}
-              <tr>
-                {{- range $dataFields -}}
-                  <td>
-                    <input type="hidden" disabled field-name="{{.Name}}" value="{{index $dataRow .Name}}" />
-                    <span class="field-text">{{index $dataRow .Name}}</span>
-                  </td>
-                {{- end -}}
-                {{- if ne (print $.form_mode) "view" -}}
-                  <td>
-                    <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
-                    <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
-                  </td>
-                {{end}}
-              </tr>
-          {{end}}
-        {{end}}
-      </tbody>
-    </table>
-    <input id="custom-input-field-{{.field.ID}}" class="value-field" type="hidden" field-name="{{.Name}}" name="{{$fieldName}}" value="{{if $formatValue}}{{print $formatValue}}{{end}}" />
-    <table id="custom-input-table-tpl-{{.field.ID}}" style="display: none;">
-      <tbody>
-        <tr>
-          {{- range $dataFields -}}
-            <td>
-              <input type="hidden" disabled field-name="{{.Name}}" />
-              <span class="field-text"></span>
-            </td>
-          {{- end -}}
-          {{- if ne (print $.form_mode) "view" -}}
-            <td>
-              <i class="fa fa-edit btn-edit-row field-edit-trigger"></i>
-              <i class="fa fa-trash btn-remove-row field-edit-trigger"></i>
-            </td>
-          {{- end -}}
-        </tr>
-      </tbody>
-    </table>
-    {{- template "share/modal_header.html" args | arg "title" "添加记录" | arg "id" (printf "custom-input-modal-%v" .field.ID) -}}
-        {{range $dataFields}}
-          {{template "share/field_input.html" args | arg "field" .}}
-        {{end}}
-    {{- template "share/modal_footer_for_edit.html" . -}}
-
-    {{- if ne (print $.form_mode) "view" -}}
-      <a class="btn btn-default field-edit-trigger" id="btnAdd{{.field.ID}}"><i class="fa fa-plus"></i></a>
-    {{- end -}}
-    <script type="text/javascript">
-      $(function(){
-        $("#custom-input-table-{{.field.ID}}").delegate(".btn-remove-row", "click", function(){
-          var $row = $(this).parents("tr:first");
-          bootbox.confirm("确定删除该记录？", function (result) {
-            if(result) {
-              $row.remove();
-            }
-          });
-        });
-
-        $("#custom-input-table-{{.field.ID}}").delegate(".btn-edit-row", "click", function(){
-          var $row = $(this).parents("tr:first");
-          var nowData = {};
-          $row.find("input").each(function(){
-            nowData[$(this).attr("field-name")] = $(this).val();
-          });
-
-          Modal.show("#custom-input-modal-{{.field.ID}}", function(result){
-            $row.find("input:hidden").each(function(){
-              var fieldName = $(this).attr("field-name");
-              var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.valueLabels[fieldValue];
-
-              $(this).val(fieldValue);
-              $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
-            });
-
-          }, {data:nowData});
-        });
-
-        $("#btnAdd{{.field.ID}}").click(function(){
-          $("#custom-input-modal-{{.field.ID}}").find("input:text, select, textarea").each(function(){
-            var defaultValue = $(this).attr("default-value");
-            $(this).val(defaultValue ? defaultValue : "");
-
-          });
-
-          Modal.show("#custom-input-modal-{{.field.ID}}", function(result){
-            var dataIndex = parseInt($("#custom-input-table-{{.field.ID}}").attr("data-index"));
-            $("#custom-input-table-{{.field.ID}}").attr("data-index", dataIndex + 1);
-
-            var $tr = $("#custom-input-table-tpl-{{.field.ID}} tbody tr").clone();
-
-            $tr.find("input:hidden").each(function(){
-              var fieldName = $(this).attr("field-name");
-              var fieldValue = result.jsonObject[fieldName];
-              var fieldLabel = result.valueLabels[fieldValue];
-
-              $(this).val(fieldValue);
-              $(this).parent().find(".field-text").text(fieldLabel ? fieldLabel : fieldValue);
-            });
-
-            $("#custom-input-table-{{.field.ID}} tbody").append($tr);
-          });
-        });
-
-        $("#custom-input-field-{{.field.ID}}").parents("form:first").submit(function(){
-          var dataArray = [];
-          $("#custom-input-table-{{.field.ID}} tbody tr").each(function(){
-            var dataObj = {};
-            dataArray.push(dataObj);
-            $(this).find("input:hidden").each(function(){
-              var fieldName = $(this).attr("field-name");
-              var fieldValue = $(this).val();
-              dataObj[fieldName] = fieldValue;
-            });
-          });
-
-          $("#custom-input-field-{{.field.ID}}").val(JSON.stringify(dataArray));
-        });
-      })
-    </script>
-  {{- template "share/form/wrap_field_footer.html" args -}}
 {{- else}}
   {{- template "share/field_input_basic.html" . -}}
 {{- end -}}
