@@ -7,7 +7,7 @@
   {{/* 这部分应该由一个方法来实现，在 web_ext 中有一个 newfield 实现了相同的功能， */}}
   {{/* 此处是为了不相引用 web_ext 的项目保留的 */}}
 
-  {{- if .field.HasChoices . }}
+  {{- if .field.HasChoices }}
     {{- $fieldChoices := .field.ToChoices . -}}
     {{- set $context "field_input" (select_field . $fieldName (concat $fieldLabel ":") $fieldChoices) }}
     {{- if .field.IsArray -}}

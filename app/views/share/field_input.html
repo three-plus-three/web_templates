@@ -17,7 +17,7 @@
 {{- else if  eq $inputType "area" -}}
   {{- textarea_field . $fieldName (concat $fieldLabel ":") 5 0 | f_setValue $formatValue  | f_addParams "default-value" (toString $formatValue) | f_addData "unmodifiable" .field.IsReadonly | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth | f_addClass ( joinWithArray " " (.field.CSSClasses) ) |f_setTheme $inputTheme | render -}}
 {{- else if eq $inputType "select" -}}
-  {{- if .field.HasChoices . -}}
+  {{- if .field.HasChoices -}}
     {{- if .field.IsArray -}}
       {{select_field . $fieldName (concat $fieldLabel ":") ( $fieldChoices ) | f_addClass "chosen"| f_addParams "data-placeholder"  "请选择" |f_multiple | f_setValue ( default $formatValue  `[]` ) | f_addData "unmodifiable" .field.IsReadonly | f_addData "labelWidth" $labelWidth | f_addData "controlWidth" $controlWidth |f_setTheme $inputTheme | render -}}
     {{- else}}
