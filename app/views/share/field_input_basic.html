@@ -7,8 +7,8 @@
   {{/* 这部分应该由一个方法来实现，在 web_ext 中有一个 newfield 实现了相同的功能， */}}
   {{/* 此处是为了不相引用 web_ext 的项目保留的 */}}
 
-  {{- if .field.HasChoices }}
-    {{- $fieldChoices := .field.ToChoices -}}
+  {{- if .field.HasChoices . }}
+    {{- $fieldChoices := .field.ToChoices . -}}
     {{- set $context "field_input" (select_field . $fieldName (concat $fieldLabel ":") $fieldChoices) }}
     {{- if .field.IsArray -}}
       {{- set $context "field_input" (f_multiple $context.field_input) }}
@@ -63,4 +63,4 @@
 
   {{/* ####################################################################  */}}
 
-  {{- f_setValue .value $context.field_input | f_addData "labelWidth" (default .labelWidth "3") | f_addData "controlWidth" (default .controlWidth "9") | f_addData "unmodifiable" .field.IsUnmodifiable | f_addClass ( .field.CSSClasses ) | render (default .inputTheme "bootstrap3") }}
+  {{- f_setValue .value $context.field_input | f_addData "labelWidth" (default .labelWidth "3") | f_addData "controlWidth" (default .controlWidth "9") | f_addData "unmodifiable" .field.IsUnmodifiable | f_addClass ( joinWithArray " " (.field.CSSClasses) ) | render (default .inputTheme "bootstrap3") }}
