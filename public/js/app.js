@@ -242,7 +242,11 @@
         if(typeof data[key] === "boolean") {
           wrapper.find(selector).prop("checked", data[key]);
         } else {
-          wrapper.find(selector).val(data[key]);
+          if(wrapper.find(selector).is("input:radio")) {
+            wrapper.find(selector + "[value='" + data[key] + "']").prop("checked", true);
+          } else {
+            wrapper.find(selector).val(data[key]);
+          }
         }
       }
     },
@@ -366,7 +370,7 @@ $(function(){
       }
     });
   } catch(e) {
-    console.log(e)
+    //ignore error
   };
 })
 
