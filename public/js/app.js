@@ -239,13 +239,17 @@
       for(var key in data) {
         var selector = "[name='" + key + "']";
 
-        if(typeof data[key] === "boolean") {
-          wrapper.find(selector).prop("checked", data[key]);
+        if(wrapper.find(selector).is(":radio")) {
+          wrapper.find(selector + "[value='" + data[key] + "']").prop("checked", true);
         } else {
-          if(wrapper.find(selector).is("input:radio")) {
-            wrapper.find(selector + "[value='" + data[key] + "']").prop("checked", true);
+          if(typeof data[key] === "boolean") {
+            wrapper.find(selector).prop("checked", data[key]);
           } else {
-            wrapper.find(selector).val(data[key]);
+            if(wrapper.find(selector).is("input:radio")) {
+              wrapper.find(selector + "[value='" + data[key] + "']").prop("checked", true);
+            } else {
+              wrapper.find(selector).val(data[key]);
+            }
           }
         }
       }
