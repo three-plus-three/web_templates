@@ -11,7 +11,7 @@
 
             {{if .type }}
                 {{if eq .type "link"}}
-                    <a {{if .id}}id="{{.id}}"{{end}} href='{{.url}}'  class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}">
+                    <a {{if .id}}id="{{.id}}"{{end}} href='{{.url}}'  class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .target}}target="{{.target}}"{{end}}>
                         {{.title}}
                     </a>
                 {{else}}
