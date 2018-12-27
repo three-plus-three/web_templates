@@ -92,6 +92,31 @@
           value[name] = v.value;
       }
       return value;
+    },
+    switchFullscreen: function (){
+      var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
+
+      if (!fullscreen) {
+        if(document.body.requestFullscreen) {
+          document.body.requestFullscreen();
+        } else if(document.body.mozRequestFullScreen) {
+          document.body.mozRequestFullScreen();
+        } else if(document.body.msRequestFullscreen){
+          document.body.msRequestFullscreen();
+        } else if(document.body.webkitRequestFullscreen) {
+          document.body.webkitRequestFullScreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
     }
   };
 
@@ -169,7 +194,7 @@
               });
             }
 
-            if(typeof options.autoClose == "undefined" || options.autoClose) {
+            if(typeof options.autoClose === "undefined" || options.autoClose) {
               $(selector).find("[data-dismiss='modal']").click();
             }
           }
@@ -186,6 +211,11 @@
       $(selector).modal({backdrop:'static'});
     },
     showRemote: function(url, options) {
+      if(!url) {
+        console.log("url不能为空！");
+        return;
+      }
+
       if(typeof options == "undefined") {
         options = {};
       }
@@ -211,10 +241,12 @@
                 var jsonData = JSON.stringify(jsonObject);
 
                 if(typeof options.submitCallback != "undefined") {
-                  options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+                  options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject}, $el);
                 }
 
-                $el.find("[data-dismiss='modal']").click();
+                if(typeof options.autoClose === "undefined" || options.autoClose) {
+                  $el.find("[data-dismiss='modal']").click();
+                }
               }
             });
           }
