@@ -93,6 +93,37 @@
       }
       return value;
     },
+    fullScreen: function (docElm) {
+      var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
+
+      if (!fullscreen) {
+        if(docElm.requestFullscreen) {
+          docElm.requestFullscreen();
+        } else if(docElm.mozRequestFullScreen) {
+          docElm.mozRequestFullScreen();
+        } else if(docElm.msRequestFullscreen){
+          docElm.msRequestFullscreen();
+        } else if(docElm.webkitRequestFullscreen) {
+          docElm.webkitRequestFullScreen();
+        }
+        return true;
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        return false;
+      }
+    },
+    isFullScreen: function(){
+      var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
+      return fullscreen;
+    },
     switchFullscreen: function (){
       var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
 
