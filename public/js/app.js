@@ -357,7 +357,7 @@
     },
     enabledInputs: function($form){
       $form.find('select,input,textarea').removeAttr("readonly");
-      $form.find('select[multiple]').remove("disabled");
+      $form.find('select[multiple]').removeAttr("disabled");
       $form.find('select[multiple]').trigger("chosen:updated");
     }
   }

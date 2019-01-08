@@ -8572,7 +8572,7 @@ body.md-skin {
 
 .form-group > [class^=col-md]:last-child {
   flex-grow: 1;
-  width: auto;
+  /*width: auto;*/
 }
 
 .form-group > [class^=col-lg]:first-child {
@@ -8581,7 +8581,7 @@ body.md-skin {
 
 .form-group > [class^=col-lg]:last-child {
   flex-grow: 1;
-  width: auto;
+  /*width: auto;*/
 }
 
 @media (min-width: 1300px) {
