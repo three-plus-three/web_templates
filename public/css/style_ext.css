@@ -59,6 +59,12 @@
     margin-left: 20px;
 }
 
+.ibox-content > .full-height-fixed > .alert {
+    position: relative;
+    z-index: 1;
+}
+
+
 body.fixed-sidebar.mini-navbar #page-wrapper {
     margin: 0 0 0 0;
 }
