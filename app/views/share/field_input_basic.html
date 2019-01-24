@@ -63,4 +63,4 @@
 
   {{/* ####################################################################  */}}
 
-  {{- f_setValue .value $context.field_input | f_addData "labelWidth" (default .labelWidth "3") | f_addData "controlWidth" (default .controlWidth "9") | f_addData "unmodifiable" .field.IsUnmodifiable | f_addClass ( joinWithArray " " (.field.CSSClasses) ) | render (default .inputTheme "bootstrap3") }}
+  {{- f_setValue .value $context.field_input | f_addData "labelWidth" (default .labelWidth "3") | f_addData "controlWidth" (default .controlWidth "9") | f_addData "unmodifiable" .field.IsReadonly | f_addClass ( joinWithArray " " (.field.CSSClasses) ) | render (default .inputTheme "bootstrap3") }}

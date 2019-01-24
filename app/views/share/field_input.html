@@ -7,7 +7,7 @@
 {{- $context := (dict "formatValue" (default .value (indexValue $ $fieldName)))}}
 
 {{- if eq $inputType "select" -}}
-    {{- set $context "choices" .field.ToChoices . -}}
+    {{- set $context "choices" (.field.ToChoices .) -}}
 {{- end -}}
 {{- $fieldChoices := $context.choices}}
 {{- $formatValue := (index $context "formatValue") -}}
