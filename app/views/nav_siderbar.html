@@ -25,14 +25,14 @@
                 <li class="divider"></li>
                 {{- else if current_user_has_menu $ $appMenu }}
                 <li uid="{{$appMenu.UID}}" class="app-menu {{$appMenu.Classes}}" style="display: none;">
-                  <a href="{{$appMenu.URL}}">{{if $appMenu.Icon}}<i class="fa {{$appMenu.Icon}}"></i> {{end}}<span class="nav-label">{{$appMenu.Title}}</span></a>
+                  <a href="{{$appMenu.URL}}" {{if $appMenu.IsNewWindow}}target="_blank"{{end}}>{{if $appMenu.Icon}}<i class="fa {{$appMenu.Icon}}"></i> {{end}}<span class="nav-label">{{$appMenu.Title}}</span></a>
                 </li>
                 {{- end}}
               {{end}}
             {{end}}
           {{else}}
             <li uid="{{$menu.UID}}" class="func-menu {{$menu.Classes}} {{if $menu.IsActiveWith $ }}active{{end}}">
-              <a href="{{$menu.URL}}">{{if $menu.Icon}}<i class="fa {{$menu.Icon}}"></i> {{end}}<span class="nav-label">{{$menu.Title}}</span>{{if $menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+              <a href="{{$menu.URL}}" {{if $menu.IsNewWindow}}target="_blank"{{end}}>{{if $menu.Icon}}<i class="fa {{$menu.Icon}}"></i> {{end}}<span class="nav-label">{{$menu.Title}}</span>{{if $menu.Children}}<span class="fa arrow"></span>{{end}}</a>
               {{- if $menu.Children -}}
                 <ul class="nav nav-second-level collapse">
                   {{- range $second_menu := $menu.Children}}
@@ -40,7 +40,7 @@
                     <li class="divider"></li>
                     {{- else if current_user_has_menu $ $second_menu }}
                     <li class="{{$menu.Classes}} {{if $second_menu.IsActiveWith $ }}active{{end}}">
-                      <a target="{{$second_menu.TargetWindow}}" href="{{$second_menu.URL}}"><i class="fa {{$second_menu.Icon}}"></i> <span class="nav-label">{{$second_menu.Title}}</span>{{if $second_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+                      <a href="{{$second_menu.URL}}" {{if $second_menu.IsNewWindow}}target="_blank"{{end}}><i class="fa {{$second_menu.Icon}}"></i> <span class="nav-label">{{$second_menu.Title}}</span>{{if $second_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
                       {{- if $second_menu.Children}}
                         <ul class="nav nav-third-level collapse">
                           {{range $third_menu := $second_menu.Children -}}
@@ -48,7 +48,7 @@
                           <li class="divider"></li>
                             {{- else if current_user_has_menu $ $third_menu }}
                           <li class="{{$menu.Classes}} {{if $third_menu.IsActiveWith $ }}active{{end}}">
-                            <a target="{{$third_menu.TargetWindow}}" href="{{$third_menu.URL}}"><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+                            <a href="{{$third_menu.URL}}" {{if $third_menu.IsNewWindow}}target="_blank"{{end}}><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
                           </li>
                               {{- if $third_menu.Children}}{{$third_menu.Fail}}{{end -}}
                             {{- end}}
