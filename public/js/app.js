@@ -55,6 +55,17 @@
       });
     },
     resolveAjaxError: function(error) {
+      try {
+        if(error.responseText && error.responseText.startsWith("{")) {
+          var errObj = JSON.parse(error.responseText)
+          if(errObj.error) {
+            return "[" + errObj.error.code + "]" + errObj.error.message
+          }
+        }
+      } catch(err) {
+        console.log(err);
+      }
+
       return error.status + "\r\n" + error.statusText + "\r\n" + error.responseText;
     },
     setData: function(key, value){
