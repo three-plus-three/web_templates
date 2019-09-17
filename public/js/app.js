@@ -58,8 +58,10 @@
       try {
         if(error.responseText && error.responseText.startsWith("{")) {
           var errObj = JSON.parse(error.responseText)
-          if(errObj.error) {
+          if(errObj.error && errObj.error.code) {
             return "[" + errObj.error.code + "]" + errObj.error.message
+          } else {
+            return errObj.error;
           }
         }
       } catch(err) {

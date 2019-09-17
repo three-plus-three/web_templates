@@ -8579,6 +8579,10 @@ body.md-skin {
   width:110px;
 }
 
+.form-group > [class^=col-lg-4]:first-child {
+  width:140px;
+}
+
 .form-group > [class^=col-lg]:last-child {
   flex-grow: 1;
   /*width: auto;*/
@@ -8592,6 +8596,10 @@ body.md-skin {
   .form-group > [class^=col-lg]:first-child {
     width:120px;
   }
+
+  .form-group > [class^=col-lg-4]:first-child {
+    width:150px;
+  }
 }
 
 @media (min-width: 1400px) {
@@ -8601,5 +8609,9 @@ body.md-skin {
 
   .form-group > [class^=col-lg]:first-child {
     width:130px;
+  }
+
+  .form-group > [class^=col-lg-4]:first-child {
+    width:160px;
   }
 }
