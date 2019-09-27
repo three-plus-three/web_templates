@@ -1,6 +1,7 @@
           </div>
         </div>
       {{if not .forceNoLayout}}
+        {{if not .forceNoFooter}}
           <div class="footer" style="position: fixed;">
             <div class="pull-right">
               <strong>{{if .footer_title_text}}{{.footer_title_text}}{{else}}{{.global.footer_title_text}}{{end}}</strong>
@@ -10,6 +11,7 @@
               {{.global.footer_copyright_text}}
             </div>
           </div>
+        {{end}}
           {{- template "right-sidebar.html" .}}
       {{end}}
     </div>
