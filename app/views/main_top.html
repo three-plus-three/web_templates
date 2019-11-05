@@ -5,7 +5,7 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
-        <a href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
+        <a id="currentUserLink" href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
             <i class="fa fa-user"></i>{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}{{if .currentUsername}}{{.currentUsername}}{{else}}欢迎您！{{end}}{{end}}
         </a>
       </li>
@@ -31,4 +31,14 @@
     </ul>
     {{- end}}
   </nav>
+  <script type="text/javascript">
+    $(function(){
+      var linkUrl = $("#currentUserLink").attr("href");
+      if(linkUrl.indexOf("returnTo") < 0) {
+        linkUrl += (linkUrl.indexOf("?") > 0 ? "&" : "?") + "returnTo=" + encodeURIComponent(window.location.pathname + window.location.search);
+
+        $("#currentUserLink").attr("href", linkUrl);
+      }
+    })
+  </script>
 </div>
