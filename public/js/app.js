@@ -276,8 +276,8 @@
           }
 
           if(innerForm.length > 0) {
-            $el.undelegate("#btnOk", "click");
-            $el.delegate("#btnOk", "click", function() {
+            $el.undelegate("#btnOk:not([type='submit'])", "click");
+            $el.delegate("#btnOk:not([type='submit'])", "click", function() {
               if(innerForm.valid()) {
                 var formData = innerForm.serialize();
                 var dataArray = innerForm.serializeArray();
@@ -291,6 +291,29 @@
                 if(typeof options.autoClose === "undefined" || options.autoClose) {
                   $el.find("[data-dismiss='modal']").click();
                 }
+              }
+            });
+            innerForm.bind("submit", function(event) {
+              if(innerForm.valid()) {
+                var formData = innerForm.serialize();
+                var dataArray = innerForm.serializeArray();
+                var jsonObject = App.serializeObject(dataArray);
+                var jsonData = JSON.stringify(jsonObject);
+                
+                try {
+                  if (!event.isDefaultPrevented()) {
+                    $.post($(this).attr("action"), innerForm.serialize(), function(result){
+                      options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+                      $el.find("[data-dismiss='modal']").click();
+                    }).fail(function(error){
+                      alert("保存失败！\r\n" + App.resolveAjaxError(error));
+                    });
+                  }
+                } catch(error) {
+                  if(typeof console != "undefined")
+                    console.log(error.message + "\r\n" + error.stack);
+                }
+                return false;
               }
             });
           }
