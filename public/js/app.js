@@ -61,7 +61,7 @@
           if(errObj.error && errObj.error.code) {
             return "[" + errObj.error.code + "]" + errObj.error.message
           } else {
-            return errObj.error;
+            return errObj.error || errObj.errorMessage;
           }
         }
       } catch(err) {
