@@ -16,17 +16,17 @@
       </li>
     </ul>
 
-    {{- if .global.managed_objects_url}}
+    {{- if and .global.managed_objects_url (not .currentUser.IsGuest)}}
     <ul class="nav navbar-top-links navbar-right stat-bar-wrapper consequent-load" refresh-interval="60" remote-url="{{.global.managed_objects_url}}">
     </ul>
     {{- end}}
 
-    {{- if .global.backgroud_tasks_url}}
+    {{- if and .global.backgroud_tasks_url (not .currentUser.IsGuest)}}
     <ul class="nav navbar-top-links navbar-right entries" url-prefix="{{.global.backgroud_tasks_url}}">
     </ul>
     {{- end}}
 
-    {{- if .global.alert_stat_new_url}}
+    {{- if and .global.alert_stat_new_url (not .currentUser.IsGuest)}}
     <ul class="nav navbar-top-links navbar-right alert-bar-wrapper consequent-load" remote-url="{{.global.alert_stat_new_url}}">
     </ul>
     {{- end}}
