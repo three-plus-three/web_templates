@@ -8627,3 +8627,16 @@ body.md-skin {
     width:260px;
   }
 }
+
+#sys-title {
+
+    position: absolute;
+    text-align: center;
+    font-family: 仿宋, serif;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+    top: 18px;
+    margin-left: 70px;
+
+}

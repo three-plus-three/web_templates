@@ -3,6 +3,7 @@
     <div class="navbar-header">
       <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
     </div>
+    <div id="sys-title" class="navbar-header navbar-top-links welcome-message">{{if .header_title_text}}{{.header_title_text}}{{else}}{{.global.header_title_text}}{{end}}</div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
         <a id="currentUserLink" href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
