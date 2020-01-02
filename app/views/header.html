@@ -41,17 +41,18 @@
       var tpt_form_callbacks = new Array();
     </script>
   </head>
-  <body class='{{default .fixedCls "fixed-sidebar"}} {{if .fullHeightLayout}}full-height-layout{{end}} pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
+  {{- $fullHeightLayout := default .fullHeightLayout false }}
+  <body class='{{default .fixedCls "fixed-sidebar"}} {{if $fullHeightLayout}}full-height-layout{{end}} pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
         <input type="hidden" id="urlPrefix" value="{{.global.url_root}}" />
         <input type="hidden" id="alertAudioSetting" value="{{.global.alertAudioSetting}}" />
         <input type="hidden" id="keepEmpty" value="false" />
 
     <div id="wrapper">
-      {{if not .forceNoLayout}}
+      {{- if not .forceNoLayout}}
         {{- template "nav_siderbar.html" .}}
-      {{end}}
+      {{- end}}
       <div id="page-wrapper" class="gray-bg {{if .forceNoLayout}}no-layout{{end}}">
-        {{if not .forceNoLayout}}
+        {{- if not .forceNoLayout}}
           {{- template "main_top.html" .}}
-        {{end}}
-        <div class="{{if .fullHeightLayout}}{{if not .forceNoLayout}}fh-no-breadcrumb{{else}}full-height{{end}}{{else}}wrapper wrapper-content fadeIn{{end}}">
+        {{- end}}
+        <div class="{{if $fullHeightLayout}}{{if not .forceNoLayout}}fh-no-breadcrumb{{else}}full-height{{end}}{{else}}wrapper wrapper-content fadeIn{{end}}">
