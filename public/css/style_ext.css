@@ -105,12 +105,16 @@ body.fixed-sidebar.mini-navbar .footer {
 
 .ibox.full-height > .ibox-content {
     position:absolute;
-    top: 48px;
+    top:0;
     bottom: 0;
     left:0;
     right:0;
     padding: 6px 8px 8px 8px;
     overflow: auto;
+}
+
+.ibox.full-height > .ibox-title + .ibox-content {
+    top: 48px;
 }
 
 .full-height.content {
