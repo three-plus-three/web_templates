@@ -3,6 +3,13 @@
       {{if not .forceNoLayout}}
         {{if not .forceNoFooter}}
           <div class="footer" style="position: fixed;">
+            <div class="pull-left col-lg-8" style=" width: calc(100% - 600px);">
+              <marquee style="width: 100%;" behavior="alternate" direction="left" align="middle">
+                <span id="alertBadgeWrap" class="badge badge-danger" style="display: none;">
+                  <i class="fa fa-bullhorn"></i> <span id="alertBadge">2020-08-08 192.168.1.1无法Ping通</span>
+                </span>
+              </marquee>
+            </div>
             <div class="pull-right">
               <strong>{{if .footer_title_text}}{{.footer_title_text}}{{else}}{{.global.footer_title_text}}{{end}}</strong>
             </div>
@@ -10,6 +17,32 @@
               <!-- strong>Copyright</strong> Hengwei © 2010 -->
               {{.global.footer_copyright_text}}
             </div>
+            <script type="text/javascript">
+              $(function(){
+                var index = 0;
+                function loopEvents() {
+                  var $eventSource = $("#eventSource");
+                  var alertEvents = [];
+                  if($eventSource.length > 0 && $eventSource.attr("alert-events")) {
+                    alertEvents = JSON.parse($eventSource.attr("alert-events"));
+                  }
+
+                  if(alertEvents.length > 0) {
+                    $("#alertBadgeWrap").show();
+                    index = index % alertEvents.length;
+                    $("#alertBadge").text(alertEvents[index].content);
+                    index++;
+                  } else {
+                    $("#alertBadgeWrap").hide();
+                    $("#alertBadge").text("");
+                  }
+
+                  window.setTimeout(loopEvents, 5000);
+                }
+
+                window.setTimeout(loopEvents, 5000);
+              });
+            </script>
           </div>
         {{end}}
           {{- template "right-sidebar.html" .}}
