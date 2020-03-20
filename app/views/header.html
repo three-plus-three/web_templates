@@ -26,20 +26,75 @@
       var urlPrefix = {{.global.url_root}};
       var applicationRoot = {{.global.application_root}};
 
-      if (urlPrefix != null && 
-          urlPrefix.length >= "/".length && 
+      if (urlPrefix != null &&
+          urlPrefix.length >= "/".length &&
           urlPrefix.substring(urlPrefix.length-"/".length) == "/") {
         urlPrefix = urlPrefix.substring(0, urlPrefix.length-"/".length)
       }
 
-      if (applicationRoot != null && 
-          applicationRoot.length >= "/".length && 
+      if (applicationRoot != null &&
+          applicationRoot.length >= "/".length &&
           applicationRoot.substring(applicationRoot.length-"/".length) == "/") {
         applicationRoot = applicationRoot.substring(0, applicationRoot.length-"/".length)
       }
 
       var tpt_form_callbacks = new Array();
     </script>
+    {{if layoutFullHeader}}
+      <style type="text/css">
+        body.fixed-sidebar .navbar-static-side,
+        body.canvas-menu .navbar-static-side {
+          top:60px;
+          height: calc(100% - 61px);
+        }
+
+        .layout-content {
+          top:0;
+        }
+
+        body.fixed-sidebar .navbar-static-side #side-menu > .nav-header {
+          display: none;
+        }
+
+        body.full-height-layout > #wrapper {
+          height: calc(100% - 61px);
+        }
+
+        #page-wrapper {
+          min-height: auto;
+        }
+
+        #page-wrapper > .wrapper-content {
+          top:0;
+        }
+
+        .fh-no-breadcrumb {
+          height: calc(100% - 40px);
+        }
+
+        #page-wrapper {
+          min-height: auto;
+        }
+
+        #sys-title {
+          display:inline-block;
+          position:relative;
+          text-align: left;
+          margin-left: auto;
+          top:8px;
+          left: 50px;
+        }
+
+        .logo-header {
+          display: inline-block;
+          vertical-align: middle;
+          top:6px;
+          position:relative;
+          left:30px;
+        }
+
+      </style>
+    {{end}}
   </head>
   {{- $fullHeightLayout := default .fullHeightLayout false }}
   <body class='{{default .fixedCls "fixed-sidebar"}} {{if $fullHeightLayout}}full-height-layout{{end}} pace-done {{if .hideSideBar}}mini-navbar{{end}}'>
@@ -47,12 +102,17 @@
         <input type="hidden" id="alertAudioSetting" value="{{.global.alertAudioSetting}}" />
         <input type="hidden" id="keepEmpty" value="false" />
 
+    {{if layoutFullHeader}}
+      {{- template "main_top.html" .}}
+    {{end}}
     <div id="wrapper">
       {{- if not .forceNoLayout}}
         {{- template "nav_siderbar.html" .}}
       {{- end}}
       <div id="page-wrapper" class="gray-bg {{if .forceNoLayout}}no-layout{{end}}">
         {{- if not .forceNoLayout}}
-          {{- template "main_top.html" .}}
+          {{if not layoutFullHeader}}
+            {{- template "main_top.html" .}}
+          {{end}}
         {{- end}}
         <div class="{{if $fullHeightLayout}}{{if not .forceNoLayout}}fh-no-breadcrumb{{else}}full-height{{end}}{{else}}wrapper wrapper-content fadeIn{{end}}">

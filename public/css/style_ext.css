@@ -71,6 +71,9 @@ body.fixed-sidebar.mini-navbar #page-wrapper {
 
 .footer {
     margin-left:220px;
+    padding: 10px 20px 5px 20px;
+    height:40px;
+    vertical-align: center;
 }
 
 body.fixed-sidebar.mini-navbar .footer {

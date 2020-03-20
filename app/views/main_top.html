@@ -1,9 +1,9 @@
 <div class="row border-bottom">
   <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+    <div class="logo-header">
+      <image style="height:48px;" src="{{urlRoot "/web/resources/images/logo.png"}}" />
     </div>
-    <div id="sys-title" class="navbar-header navbar-top-links welcome-message">{{if .header_title_text}}{{.header_title_text}}{{else}}{{.global.header_title_text}}{{end}}</div>
+    <div id="sys-title" style="float:none;" class="navbar-header navbar-top-links welcome-message">{{if .header_title_text}}{{.header_title_text}}{{else}}{{.global.header_title_text}}{{end}}</div>
     <ul class="nav navbar-top-links navbar-right">
       <li>
         <a id="currentUserLink" href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
@@ -31,6 +31,9 @@
     <ul class="nav navbar-top-links navbar-right alert-bar-wrapper consequent-load" remote-url="{{.global.alert_stat_new_url}}">
     </ul>
     {{- end}}
+    <div class="navbar-header" style="float:right;">
+      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+    </div>
   </nav>
   <script type="text/javascript">
     $(function(){
