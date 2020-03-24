@@ -40,7 +40,7 @@
 
       var tpt_form_callbacks = new Array();
     </script>
-    {{if layoutFullHeader}}
+    {{if .layoutFullHeader}}
       <style type="text/css">
         body.fixed-sidebar .navbar-static-side,
         body.canvas-menu .navbar-static-side {
@@ -56,7 +56,7 @@
           display: none;
         }
 
-        body.full-height-layout > #wrapper, body.fixed-sidebar > #wrapper {
+        body.full-height-layout > .row + #wrapper, body.fixed-sidebar > .row + #wrapper {
           height: calc(100% - 61px);
         }
 
@@ -102,8 +102,10 @@
         <input type="hidden" id="alertAudioSetting" value="{{.global.alertAudioSetting}}" />
         <input type="hidden" id="keepEmpty" value="false" />
 
-    {{if layoutFullHeader}}
-      {{- template "main_top.html" .}}
+    {{if .layoutFullHeader}}
+      {{- if not .forceNoLayout}}
+        {{- template "main_top.html" .}}
+      {{end}}
     {{end}}
     <div id="wrapper">
       {{- if not .forceNoLayout}}
@@ -111,7 +113,7 @@
       {{- end}}
       <div id="page-wrapper" class="gray-bg {{if .forceNoLayout}}no-layout{{end}}">
         {{- if not .forceNoLayout}}
-          {{if not layoutFullHeader}}
+          {{if not .layoutFullHeader}}
             {{- template "main_top.html" .}}
           {{end}}
         {{- end}}
