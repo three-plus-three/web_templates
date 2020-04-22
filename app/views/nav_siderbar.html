@@ -49,8 +49,22 @@
                             {{- else if current_user_has_menu $ $third_menu }}
                           <li class="{{$menu.Classes}} {{if $third_menu.IsActiveWith $ }}active{{end}}">
                             <a href="{{$third_menu.URL}}" {{if $third_menu.IsNewWindow}}target="_blank"{{end}}><i class="fa {{$third_menu.Icon}}"></i> <span class="nav-label">{{$third_menu.Title}}</span>{{if $third_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+
+                            {{- if $third_menu.Children}}
+                            <ul class="nav nav-four-level collapse">
+                              {{range $four_menu := $third_menu.Children -}}
+                                {{- if eq $four_menu.Title "divider"}}
+                              <li class="divider"></li>
+                                {{- else if current_user_has_menu $ $four_menu }}
+                              <li class="{{$menu.Classes}} {{if $four_menu.IsActiveWith $ }}active{{end}}">
+                                <a href="{{$four_menu.URL}}" {{if $four_menu.IsNewWindow}}target="_blank"{{end}}><i class="fa {{$four_menu.Icon}}"></i> <span class="nav-label">{{$four_menu.Title}}</span>{{if $four_menu.Children}}<span class="fa arrow"></span>{{end}}</a>
+                              </li>
+                                  {{- if $four_menu.Children}}{{$four_menu.Fail}}{{end -}}
+                                {{- end}}
+                              {{- end}}
+                            </ul>
+                            {{- end}}
                           </li>
-                              {{- if $third_menu.Children}}{{$third_menu.Fail}}{{end -}}
                             {{- end}}
                           {{- end}}
                         </ul>
