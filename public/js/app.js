@@ -396,11 +396,13 @@
   window.FormUtils = {
     disabledInputs: function($form){
       $form.find('select,input,textarea').attr("readonly","readonly");
+      $form.find('select,input,textarea').attr("disabled", true);
       $form.find('select[multiple]').prop("disabled", true);
       $form.find('select[multiple]').trigger("chosen:updated");
     },
     enabledInputs: function($form){
       $form.find('select,input,textarea').removeAttr("readonly");
+      $form.find('select,input,textarea').removeAttr("disabled");
       $form.find('select[multiple]').removeAttr("disabled");
       $form.find('select[multiple]').trigger("chosen:updated");
     }
