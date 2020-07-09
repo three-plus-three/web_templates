@@ -293,6 +293,12 @@
                 }
               }
             });
+
+            $el.undelegate("#btnOk[type='submit'])", "click");
+            $el.delegate("#btnOk[type='submit']", "click", function() {
+              innerForm.submit()
+            });
+
             innerForm.bind("submit", function(event) {
               if(innerForm.valid()) {
                 var formData = innerForm.serialize();
@@ -302,12 +308,15 @@
                 
                 try {
                   if (!event.isDefaultPrevented()) {
-                    $.post($(this).attr("action"), innerForm.serialize(), function(result){
-                      options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
-                      $el.find("[data-dismiss='modal']").click();
-                    }).fail(function(error){
-                      alert("保存失败！\r\n" + App.resolveAjaxError(error));
-                    });
+
+                      $.post($(this).attr("action"), innerForm.serialize(), function(result){
+                        if(typeof options.submitCallback != "undefined") {
+                          options.submitCallback.call(this, {form:formData, array:dataArray, json:jsonData, jsonObject:jsonObject});
+                        }
+                        $el.find("[data-dismiss='modal']").click();
+                      }).fail(function(error){
+                        alert("保存失败！\r\n" + App.resolveAjaxError(error));
+                      });
                   }
                 } catch(error) {
                   if(typeof console != "undefined")
