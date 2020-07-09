@@ -72,7 +72,15 @@
     },
     setData: function(key, value){
       if(typeof $.cookieStorage != 'undefined') {
-        $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").setExpires(365).set(key, value);
+        var cPath = "/hengwei";
+        if($("#urlPrefix").val()) {
+          cPath = $("#urlPrefix").val();
+          if(typeof cPath.lastIndexOf === "function" && typeof cPath.substring === "function" && cPath.lastIndexOf("/") === cPath.length-1) {
+            cPath = cPath.substring(0, cPath.length-1)
+          }
+        }
+
+        $.cookieStorage.setDomain(window.location.hostname).setPath(cPath).setExpires(365).set(key, value);
       } else if(typeof window.localStorage != 'undefined') {
         window.localStorage.setItem(key, value);
       }
