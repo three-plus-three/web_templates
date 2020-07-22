@@ -61,7 +61,7 @@
           if(errObj.error && errObj.error.code) {
             return "[" + errObj.error.code + "]" + errObj.error.message
           } else {
-            return errObj.error || errObj.errorMessage || errObj.message;
+            return errObj.error || errObj.errorMessage || errObj.message || (errObj.errors && JSON.stringify(errObj.errors));
           }
         }
       } catch(err) {
