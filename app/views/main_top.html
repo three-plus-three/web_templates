@@ -10,7 +10,7 @@
       </div>
     {{end}}
     <div id="sys-title" style="float:none;" class="navbar-header navbar-top-links welcome-message">{{if .header_title_text}}{{.header_title_text}}{{else}}{{.global.header_title_text}}{{end}}</div>
-    <ul class="nav navbar-top-links navbar-right">
+    <ul class="nav navbar-top-links navbar-right" style="margin-right: 10px">
       <li>
         <a id="currentUserLink" href="{{if .currentUser}}{{urljoin .global.url_root "/um/hengweiusers/edit" | urlParam "id" .currentUser.ID}}{{else}}#{{end}}">
             <i class="fa fa-user"></i>{{if .currentUser}}{{if .currentUser.Nickname}}{{.currentUser.Nickname}}{{else}}{{.currentUser.Name}}{{end}}{{else}}{{if .currentUsername}}{{.currentUsername}}{{else}}欢迎您！{{end}}{{end}}
