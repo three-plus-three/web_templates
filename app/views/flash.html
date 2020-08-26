@@ -1,10 +1,10 @@
-        {{- if .flash.success}}<div class="alert alert-success alert-dismissable">
+        {{- if .flash.success}}<div class="alert alert-success alert-dismissable hw-op-tooltip">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
             {{.flash.success}}
           </div>
         {{- end}}
         {{- if or .errors .flash.error}}
-        <div class="alert alert-danger alert-dismissable">
+        <div class="alert alert-danger alert-dismissable hw-op-tooltip">
           <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
         	{{- if .flash.error}}{{.flash.error}}{{end}}
           {{- if .errors}}<ul style="margin-top:10px;">
@@ -15,3 +15,13 @@
           {{- end}}
         </div>
         {{- end}}
+        <script>
+          if (!tpt_form_callbacks) {
+            tpt_form_callbacks = new Array();
+          }
+          tpt_form_callbacks.push(function() {
+            setTimeout(function() {
+              $(".hw-op-tooltip").alert('close');
+            }, 10000);            
+          });
+        </script>

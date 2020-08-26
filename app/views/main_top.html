@@ -21,6 +21,11 @@
           <i class="fa fa-sign-out"></i> 退出
         </a>
       </li>
+      {{- if .global.help_url }}
+      <li>
+        <a href="{{.global.help_url}}">{{if .global.help_text}}{{raw .global.help_text}}{{else}}<i class="fa fa-question"></i> 帮助{{end}}</a>
+      </li>
+      {{- end}}
     </ul>
 
     {{- if and .global.managed_objects_url (not .currentUser.IsGuest)}}
