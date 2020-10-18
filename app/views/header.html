@@ -6,6 +6,36 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{urlPrefix "/images/favicon.ico"}}" rel="shortcut icon" />
+
+    {{- if .embeded_files -}}
+      
+      <style type="text/css">
+      {{ embeded_css_file (urlPrefix "/public/css/bootstrap.min.css") }}
+      {{ embeded_css_file (urlPrefix "/public/css/animate.css") }}
+      {{ embeded_css_file (urlPrefix "/public/css/style.css") }}
+      {{ embeded_css_file (urlPrefix "/public/css/style_ext.css") }}
+      {{ embeded_css_file (tpt_assets "/stylesheets/main_outer.css") }}
+
+      {{- range .importStyles}}
+        {{ embeded_css_file . }}
+      {{- end}}
+
+      {{ embeded_css_file (urlPrefix "/public/font-awesome/css/font-awesome.min.css") }}
+      {{ embeded_css_file (urlPrefix "/public/css/plugins/toastr/toastr.min.css") }}
+
+      {{- range .moreStyles}}
+        {{ embeded_css_file (urlPrefix .) }}
+      {{- end}}
+      </style>
+      <script type="text/javascript"> 
+      {{ embeded_js_file (urlPrefix "/public/js/jquery-3.1.1.min.js") }}
+      {{- range .preScripts}}
+        {{ embeded_js_file . }}
+      {{- end -}}
+      </script>
+
+    {{- else -}}
+
     <link href="{{urlPrefix "/public/css/bootstrap.min.css"}}" rel="stylesheet">
     <link href="{{urlPrefix "/public/css/animate.css"}}" rel="stylesheet">
     <link href="{{urlPrefix "/public/css/style.css"}}" rel="stylesheet">
@@ -17,14 +47,15 @@
     <link href="{{urlPrefix "/public/css/plugins/toastr/toastr.min.css"}}" rel="stylesheet">
     <script src="{{urlPrefix "/public/js/jquery-3.1.1.min.js"}}"></script>
 
-    {{- range .preScripts}}
+      {{- range .preScripts}}
     <script src="{{.}}" type="text/javascript" charset="utf-8"></script>
-    {{- end}}
-    {{- range .importStyles}}
-      <link rel="stylesheet" type="text/css" href="{{.}}">
-    {{- end}}
-    {{- range .moreStyles}}
-      <link rel="stylesheet" type="text/css" href="{{urlPrefix .}}">
+      {{- end}}
+      {{- range .importStyles}}
+    <link rel="stylesheet" type="text/css" href="{{.}}">
+      {{- end}}
+      {{- range .moreStyles}}
+    <link rel="stylesheet" type="text/css" href="{{urlPrefix .}}">
+      {{- end}}
     {{- end}}
     <script>
       var urlPrefix = {{.global.url_root}};

@@ -51,6 +51,76 @@
     <form id="postForm" method="POST">
       <input type="hidden" name="_method" value="POST" />
     </form>
+    {{- if .embeded_files -}}
+      <script type="text/javascript">
+
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/jquery-ui/jquery-ui.min.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/bootstrap.min.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/metisMenu/jquery.metisMenu.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/slimscroll/jquery.slimscroll.min.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/toastr/toastr.min.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/validate/jquery.validate.min.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/validate/jquery.validate.additional.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/plugins/validate/i18n/messages_zh.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/inspinia.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/inspinia_ext.js")}}
+      {{ embeded_js_file (urlPrefix  "/public/js/app.js")}}
+
+        $(function(){
+          try {
+            if (Highcharts == undefined || Highcharts == null) {
+              window.Highcharts = {
+                setOptions: function(){}
+              };
+            }
+          } catch(e) {
+            if (e instanceof ReferenceError) {
+              window.Highcharts = {
+                setOptions: function(){}
+              };
+            }
+          }
+
+          try {
+            $.fn.editable.defaults.url = '/post';
+          } catch(e) {
+            $.fn.editable = {defaults: {url: '/post'}};
+          }
+        });
+
+      {{- range .importScripts}}
+        {{ embeded_js_file .}}
+      {{- end}}
+
+      {{- range .moreScripts}}
+        {{ embeded_js_file (urlPrefix .)}}
+      {{- end}}
+
+        //获取到head元素　
+  　　　var head=document.getElementsByTagName('head')[0];
+        var link = null;
+
+        // 动态添加 css 链接
+        {{- range .moreLazyStyles}}
+          link=document.createElement("link");
+    　　　link.rel="stylesheet";
+    　　　link.href=applicationRoot + {{.}};
+    　　　head.appendChild(link);
+        {{- end}}
+
+        // 动态添加 js 链接
+        {{- range .moreLazyScripts}}
+          {{ embeded_js_file (urlPrefix .)}}
+        {{- end}}
+
+        if (tpt_form_callbacks != null) {
+          for(idx in tpt_form_callbacks) {
+            tpt_form_callbacks[idx].call()
+          }
+        }
+      </script>
+
+    {{- else -}}
 
     <script src="{{urlPrefix "/public/js/plugins/jquery-ui/jquery-ui.min.js"}}"></script>
     <script src="{{urlPrefix "/public/js/bootstrap.min.js"}}"></script>
@@ -116,14 +186,13 @@
   　　　head.appendChild(link);
       {{end}}
 
-　　</script>
-    <script type="text/javascript">
       if (tpt_form_callbacks != null) {
         for(idx in tpt_form_callbacks) {
           tpt_form_callbacks[idx].call()
         }
       }
     </script>
+    {{- end -}}
 
   </body>
 </html>
