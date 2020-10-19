@@ -10,27 +10,27 @@
     {{- if .embeded_files -}}
       
       <style type="text/css">
-      {{ embeded_css_file (urlPrefix "/public/css/bootstrap.min.css") }}
-      {{ embeded_css_file (urlPrefix "/public/css/animate.css") }}
-      {{ embeded_css_file (urlPrefix "/public/css/style.css") }}
-      {{ embeded_css_file (urlPrefix "/public/css/style_ext.css") }}
-      {{ embeded_css_file (tpt_assets "/stylesheets/main_outer.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/css/bootstrap.min.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/css/animate.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/css/style.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/css/style_ext.css") }}
+      {{ embeded_css_file $ (tpt_assets "/stylesheets/main_outer.css") }}
 
       {{- range .importStyles}}
-        {{ embeded_css_file . }}
+        {{ embeded_css_file $ . }}
       {{- end}}
 
-      {{ embeded_css_file (urlPrefix "/public/font-awesome/css/font-awesome.min.css") }}
-      {{ embeded_css_file (urlPrefix "/public/css/plugins/toastr/toastr.min.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/font-awesome/css/font-awesome.min.css") }}
+      {{ embeded_css_file $ (urlPrefix "/public/css/plugins/toastr/toastr.min.css") }}
 
       {{- range .moreStyles}}
-        {{ embeded_css_file (urlPrefix .) }}
+        {{ embeded_css_file $ (urlPrefix .) }}
       {{- end}}
       </style>
       <script type="text/javascript"> 
-      {{ embeded_js_file (urlPrefix "/public/js/jquery-3.1.1.min.js") }}
+      {{ embeded_js_file $ (urlPrefix "/public/js/jquery-3.1.1.min.js") }}
       {{- range .preScripts}}
-        {{ embeded_js_file . }}
+        {{ embeded_js_file $ . }}
       {{- end -}}
       </script>
 
