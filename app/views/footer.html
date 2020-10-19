@@ -66,6 +66,38 @@
       {{ embeded_js_file (urlPrefix  "/public/js/inspinia_ext.js")}}
       {{ embeded_js_file (urlPrefix  "/public/js/app.js")}}
 
+
+      {{- range .importScripts}}
+        {{ embeded_js_file .}}
+      {{- end}}
+
+      {{- range .moreScripts}}
+        {{ embeded_js_file (urlPrefix .)}}
+      {{- end}}
+
+        /* 获取到head元素　 */
+  　　　var head=document.getElementsByTagName('head')[0];
+
+        /* 动态添加 css 链接 */
+        {{- range .moreLazyStyles}}
+          var link=document.createElement("link");
+    　　　  link.rel="stylesheet";
+    　　　  link.href=applicationRoot + '{{.}}';
+    　　　  head.appendChild(link);
+        {{- end}}
+
+        /* 动态添加 js 链接 */
+        {{- range .moreLazyScripts}}
+          {{ embeded_js_file (urlPrefix .)}}
+        {{- end}}
+
+        if (tpt_form_callbacks != null) {
+          for(idx in tpt_form_callbacks) {
+            tpt_form_callbacks[idx].call()
+          }
+        }
+
+
         $(function(){
           try {
             if (Highcharts == undefined || Highcharts == null) {
@@ -87,37 +119,6 @@
             $.fn.editable = {defaults: {url: '/post'}};
           }
         });
-
-      {{- range .importScripts}}
-        {{ embeded_js_file .}}
-      {{- end}}
-
-      {{- range .moreScripts}}
-        {{ embeded_js_file (urlPrefix .)}}
-      {{- end}}
-
-        //获取到head元素　
-  　　　var head=document.getElementsByTagName('head')[0];
-        var link = null;
-
-        // 动态添加 css 链接
-        {{- range .moreLazyStyles}}
-          link=document.createElement("link");
-    　　　link.rel="stylesheet";
-    　　　link.href=applicationRoot + {{.}};
-    　　　head.appendChild(link);
-        {{- end}}
-
-        // 动态添加 js 链接
-        {{- range .moreLazyScripts}}
-          {{ embeded_js_file (urlPrefix .)}}
-        {{- end}}
-
-        if (tpt_form_callbacks != null) {
-          for(idx in tpt_form_callbacks) {
-            tpt_form_callbacks[idx].call()
-          }
-        }
       </script>
 
     {{- else -}}
