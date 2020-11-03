@@ -34,6 +34,8 @@ EventBroadcaster = {
 
           $this._loadAudios();
           $this._play();
+
+          $(document.getElementsByTagName('audio')).css("visibility", "visible");
         }, this));
       }
     } catch(error) {
@@ -59,7 +61,7 @@ EventBroadcaster = {
         if(result) {
           console.log("Found audio `" + JSON.stringify(result) + "` with `" + pUrl + "`")
           $this._playList = [{id:result.id,url:result.url}];
-          window.setTimeout($.proxy($this._loadAudios, $this), 500);
+          window.setTimeout($.proxy($this._loadAudios, $this), 10000);
         } else {
           window.setTimeout($.proxy($this._loadAudios, $this), $this._pollInterval);
         }
