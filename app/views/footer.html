@@ -30,7 +30,25 @@
                   if(alertEvents.length > 0) {
                     $("#alertBadgeWrap").show();
                     index = index % alertEvents.length;
-                    $("#alertBadge").text(alertEvents[index].content);
+                    var alertEvent = alertEvents[index]
+                    $("#alertBadge").text(alertEvent.content);
+
+                    if(alertEvent.level === 1) {
+                      $("#alertBadgeWrap").css("color", "white");
+                      $("#alertBadgeWrap").css("background-color", "##C800FF");
+                    } else if(alertEvent.level === 2) {
+                      $("#alertBadgeWrap").css("color", "#9d9d9d");
+                      $("#alertBadgeWrap").css("background-color", "#00FFFFF");
+                    } else if(alertEvent.level === 3) {
+                      $("#alertBadgeWrap").css("color", "#9d9d9d");
+                      $("#alertBadgeWrap").css("background-color", "#FFFFF00");
+                    } else if(alertEvent.level === 4) {
+                      $("#alertBadgeWrap").css("color", "white");
+                      $("#alertBadgeWrap").css("background-color", "#FFA000");
+                    } else if(alertEvent.level === 5) {
+                      $("#alertBadgeWrap").css("color", "white");
+                      $("#alertBadgeWrap").css("background-color", "#FF0000");
+                    }
                     index++;
                   } else {
                     $("#alertBadgeWrap").hide();
