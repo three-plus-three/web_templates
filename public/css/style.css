@@ -8600,7 +8600,7 @@ body.md-skin {
   .form-group > [class^=col-lg]:first-child {
     width:120px;
   }
-
+                                                                                                        
   .form-group > [class^=col-lg-4]:first-child {
     width:150px;
   }
@@ -8638,5 +8638,10 @@ body.md-skin {
     z-index: 1000;
     top: 18px;
     margin-left: 70px;
+    color:#676a6c;
+    line-height: normal;
+}
 
+#side-menu {
+  font: 13px "Microsoft YaHei", 微软雅黑, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;
 }
