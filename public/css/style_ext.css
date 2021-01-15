@@ -264,6 +264,10 @@ navbar.navbar-static-top .navbar-top-links:nth-child(2) {
     font-size: 14px;
 }
 
+#side-menu li.active > a:last-child {
+    background-color: rgba(15, 107, 88, 0.51);
+}
+
 .chosen-container.show-up > .chosen-drop{
     top:auto;
     bottom:35px;
