@@ -1798,8 +1798,8 @@
         weekdays: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
         decimalPoint: ".",
         numericSymbols: "kMGTPE".split(""),
-        resetZoom: "Reset zoom",
-        resetZoomTitle: "Reset zoom level 1:1",
+        resetZoom: "恢复缩放",
+        resetZoomTitle: "恢复缩放为 1:1",
         thousandsSep: " "
       },
       global: {},
