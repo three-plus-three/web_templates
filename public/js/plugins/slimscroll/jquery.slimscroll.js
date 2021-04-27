@@ -121,11 +121,6 @@
               me.css('height', h);
             }
 
-            var st = App.getData("slim.scrollTo");
-            if(st) {
-              offset = parseInt(st);
-            }
-
             if ('scrollTo' in options)
             {
               // jump to a static point
@@ -320,13 +315,11 @@
         // attach scroll events
         attachWheel(this);
 
-        if(App && App.getData) {
-          var st = App.getData("slim.scrollTo");
-          if(st) {
-            offset = parseInt(st);
-          }
-          scrollContent(offset, false, true);
+        var st = window.localStorage.getItem("slim.scrollTo");
+        if(st) {
+          offset = parseInt(st);
         }
+        scrollContent(offset, false, true);
 
         function _onWheel(e)
         {
@@ -389,9 +382,7 @@
           // scroll content
           me.scrollTop(delta);
 
-          if(App && App.getData) {
-            App.setData("slim.scrollTo", delta);
-          }
+          window.localStorage.setItem("slim.scrollTo", delta);
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
@@ -488,4 +479,8 @@
     slimscroll: $.fn.slimScroll
   });
 
+
+  $(document.body).delegate(".slimScrollDiv", "mousemove", function(){
+    
+  })
 })(jQuery);
