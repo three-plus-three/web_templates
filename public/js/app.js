@@ -89,7 +89,7 @@
       if(typeof $.cookieStorage != 'undefined') {
         return $.cookieStorage.setDomain(window.location.hostname).setPath("/hengwei").get(key);
       } else {
-        return window.localStorage.setItem(key, value);
+        return window.localStorage.getItem(key);
       }
     },
     serializeJson: function(objArray){

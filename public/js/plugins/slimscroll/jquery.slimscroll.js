@@ -121,6 +121,11 @@
               me.css('height', h);
             }
 
+            var st = App.getData("slim.scrollTo");
+            if(st) {
+              offset = parseInt(st);
+            }
+
             if ('scrollTo' in options)
             {
               // jump to a static point
@@ -315,6 +320,14 @@
         // attach scroll events
         attachWheel(this);
 
+        if(App && App.getData) {
+          var st = App.getData("slim.scrollTo");
+          if(st) {
+            offset = parseInt(st);
+          }
+          scrollContent(offset, false, true);
+        }
+
         function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
@@ -375,6 +388,10 @@
 
           // scroll content
           me.scrollTop(delta);
+
+          if(App && App.getData) {
+            App.setData("slim.scrollTo", delta);
+          }
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
