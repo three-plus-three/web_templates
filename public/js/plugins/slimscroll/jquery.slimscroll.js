@@ -319,7 +319,9 @@
         if(st) {
           offset = parseInt(st);
         }
-        scrollContent(offset, false, true);
+        window.setTimeout(function(){
+          scrollContent(offset, false, true);
+        }, 200);
 
         function _onWheel(e)
         {
