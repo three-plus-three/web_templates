@@ -18,7 +18,7 @@
           {{if eq $menu.UID "app.products" }}
             {{if gt (len $menu.Children) 1}}
               <li id="backEntry" class="landing_link">
-                <a><i class="fa fa-mail-reply"></i> <span class="nav-label">返回</span></a>
+                <a><i class="fa fa-mail-reply"></i> <span class="nav-label">{{gettext $ "返回"}}</span></a>
               </li>
               {{range $appMenu := $menu.Children}}
                 {{- if eq $appMenu.Title "divider"}}
