@@ -3,7 +3,7 @@
         </div>
       <div class="modal-footer">
         {{if .showSearch}}
-            <input name="modalSearch" type="text" placeholder="请输入查询关键字" class="form-control" style="width: 200px;float: left;" />
+            <input name="modalSearch" type="text" placeholder="{{gettext $ "请输入查询关键字"}}" class="form-control" style="width: 200px;float: left;" />
         {{end}}
 
         {{- if .buttons}}
@@ -22,8 +22,8 @@
             {{- end}}
           {{- end}}
         {{- end}}
-        <button id="btnOk" type="{{if .buttonType}}{{.buttonType}}{{else}}button{{end}}" class="btn btn-primary">确定</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="btnOk" type="{{if .buttonType}}{{.buttonType}}{{else}}button{{end}}" class="btn btn-primary">{{gettext $ "确定"}}</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{gettext $ "取消"}}</button>
       </div>
     </div>
   </div>
