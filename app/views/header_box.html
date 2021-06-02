@@ -3,7 +3,7 @@
 <div class="full-height">
   <div class="ibox float-e-margins full-height">
     <div class="ibox-title page-title">
-      {{$title := default .title ""}}{{gettext $ $title}}
+      {{if .title}}{{gettext $ .title}}{{end}}
       <div class="ibox-tools"></div>
     </div>
     <div class="ibox-content">

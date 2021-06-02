@@ -19,6 +19,6 @@
       <li class="disabled"><a>&gt;</a></li>
       <li class="disabled"><a>{{msg . "paginator.last_page"}}</a></li>
       {{end}}
-      共 {{.paginator.TotalNums}}条
+      {{msg . "paginator.total"}} {{.paginator.TotalNums}} {{msg . "paginator.total_units"}}
     </ul>
   </div>{{end}}

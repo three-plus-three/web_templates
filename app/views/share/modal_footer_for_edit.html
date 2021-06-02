@@ -8,17 +8,16 @@
 
         {{- if .buttons}}
           {{- range .buttons}}
-
             {{if .type }}
                 {{if eq .type "link"}}
                     <a {{if .id}}id="{{.id}}"{{end}} href='{{.url}}'  class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .target}}target="{{.target}}"{{end}}>
-                        {{.title}}
+                        {{if .title}}{{gettext $ .title}}{{end}}
                     </a>
                 {{else}}
-                     <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{.title}}</button>
+                     <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{if .title}}{{gettext $ .title}}{{end}}</button>
                 {{- end}}
             {{else}}
-                <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{.title}}</button>
+                <button {{if .id}}id="{{.id}}"{{end}} type="button" class="btn {{if .classes}}{{.classes}}{{else}}btn-default{{end}}" {{if .onclick}}onclick="{{js .onclick}}"{{end}}>{{if .title}}{{gettext $ .title}}{{end}}</button>
             {{- end}}
           {{- end}}
         {{- end}}
