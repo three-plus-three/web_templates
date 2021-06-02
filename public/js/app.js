@@ -302,10 +302,10 @@
               }
             });
 
-            $el.undelegate("#btnOk[type='submit'])", "click");
-            $el.delegate("#btnOk[type='submit']", "click", function() {
-              innerForm.submit()
-            });
+            // $el.undelegate("#btnOk[type='submit'])", "click");
+            // $el.delegate("#btnOk[type='submit']", "click", function() {
+            //   innerForm.submit()
+            // });
 
             innerForm.bind("submit", function(event) {
               if(innerForm.valid()) {
