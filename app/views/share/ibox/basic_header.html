@@ -1,7 +1,7 @@
 
 <div class="ibox {{.cls}}">
   <div class="ibox-title">
-    <h5>{{.title}}</h5>
+    <h5>{{if .title}}{{gettext $ .title}}{{end}}</h5>
   </div>
   <div class="ibox-content {{.contentCls}}">
 
