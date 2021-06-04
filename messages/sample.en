@@ -7,6 +7,8 @@
 
 paginator.last_page= last
 paginator.first_page= first
+paginator.total=total
+paginator.total_units=
 insert.success=insert success.
 update.success=update success.
 delete.success=delete success.
