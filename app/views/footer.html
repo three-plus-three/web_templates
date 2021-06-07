@@ -11,11 +11,11 @@
               </marquee>
             </div>
             <div class="pull-right">
-              <strong>{{if .footer_title_text}}{{.footer_title_text}}{{else}}{{.global.footer_title_text}}{{end}}</strong>
+              <strong>{{if .footer_title_text}}{{gettext $ .footer_title_text}}{{else if .global.footer_title_text}}{{gettext $ .global.footer_title_text}}{{end}}</strong>
             </div>
             <div>
               <!-- strong>Copyright</strong> Hengwei © 2010 -->
-              {{.global.footer_copyright_text}}
+              {{if .global.footer_copyright_text}}{{gettext $ .global.footer_copyright_text}}{{end}}
             </div>
             <script type="text/javascript">
               $(function(){
