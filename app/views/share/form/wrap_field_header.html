@@ -1,5 +1,5 @@
 
 <div class="form-group">
-  <label class="col-lg-{{default .labelWidth 2}} control-label">{{.label}}</label>
+  <label class="col-lg-{{default .labelWidth 2}} control-label">{{if .label}}{{gettext $ .label}}{{end}}</label>
   <div class="col-lg-{{default .controlWidth 9}}">
   
