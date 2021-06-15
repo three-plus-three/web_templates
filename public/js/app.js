@@ -145,6 +145,40 @@
       var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
       return fullscreen;
     },
+    openWindow: function(url, left, top, width, height) {
+      try {
+        if(window.parent && window.parent != window && window.parent.App && window.parent.App.openWindow) {
+          window.parent.App.openWindow(url, left, top, width, height);
+          return;
+        }
+      } catch (err) {
+        console.log(err)
+      }
+
+      var winName = "newWindow_" + new Date().getTime();
+      if(arguments.length == 2) {
+        winName = arguments[1];
+        left = 0;
+        top = 0;
+        width = window.innerWidth - 16;
+        height = window.innerHeight;
+      } else {
+        if(!left)left = 0;
+        if(!top)top = 0;
+        if(!width)width = window.innerWidth - 16;
+        if(!height)height = window.innerHeight;
+      }
+
+      var win = window.open(url, winName, "left=" + left + ",top=" + top + ",width=" + width + ",height=" + height + ",resizable=yes,scrollbars=yes");
+
+      if(!win) {
+        alert("无法打开新窗口，请修改浏览器的设置，允许当前网站显示弹出式窗口！");  
+      }                                                                   
+      else {
+        win.focus();
+        return win;
+      }
+    },
     switchFullscreen: function (){
       var fullscreen = document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen;
 
